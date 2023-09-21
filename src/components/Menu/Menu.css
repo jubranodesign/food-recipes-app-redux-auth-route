@@ -1,0 +1,13 @@
+#menuContainer {
+    display: flex;
+    width: 15%;
+}
+
+#menuContainer .categoriesMenu {
+    padding-left: 10px;
+}
+
+#menuContainer .foodCategoriesListItem {
+    padding: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,6 @@
+#recipesMainDisplay {
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

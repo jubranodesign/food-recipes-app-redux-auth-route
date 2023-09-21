@@ -1,0 +1,17 @@
+#Home {
+    margin: 0 auto;
+    margin-top: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.Logout {
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 100px;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: brown;
+    cursor: pointer
+}
