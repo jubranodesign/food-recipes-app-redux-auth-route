@@ -1,8 +1,8 @@
-# Food Recipes Web App Using React and Redux
+# Food Recipes Web App Using React, Redux, Routing and Authentication
 
 This project covers several software and web concepts:
-html, css, dom, oop, singlton and dependency injection with react context, promise, async await, caching with react query, share state between components with redux,
-static typing and generics with typescript.
+html, css, dom, oop, singlton and dependency injection with react context, promise, async await, caching with react query, 
+share state between components with redux, routing, authentication(simulation), forms, static typing and generics with typescript.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
