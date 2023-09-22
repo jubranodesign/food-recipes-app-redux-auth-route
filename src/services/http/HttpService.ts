@@ -47,7 +47,7 @@ abstract class HttpService implements IHttpService {
         return await this.client.get(url);
     }
 
-    protected async post<Type>(url: string, payload: Type): Promise<Type> {
+    protected async post<Type>(url: string, payload: Type): Promise<Response> {
         return await this.client.post(url, payload);
     }
 
@@ -73,7 +73,6 @@ abstract class HttpService implements IHttpService {
         }
     }
 
-    // should be removed when the backend project completed 
     protected async fakeAuth<Type>(val: Type): Promise<Type> {
         return new Promise((resolve) => {
             setTimeout(() => resolve(val), 250);

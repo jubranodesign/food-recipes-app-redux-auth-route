@@ -55,7 +55,7 @@ export default function NewCategory() {
             return;
         }
 
-        // await services?.foodService.addNewRecipeByFoodCategory(recipeFormData);
+        // await services?.foodService.addNewRecipeByFoodCategory<IRecipe_>(recipeFormData);
     }
 
     return (
