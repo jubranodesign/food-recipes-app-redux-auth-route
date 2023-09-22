@@ -55,10 +55,12 @@ abstract class HttpService implements IHttpService {
         return await this.client.delete(`${id}`);
     }
 
+    // should be removed when the backend project completed or change it to static
     protected async fetchDataFromAPI(url: string): Promise<Response> {
         return await axios(url);
     }
 
+    // should be removed when the backend project completed or change it to static
     protected convertResponseToJSON<Type>(res: any): Type {
         return res.data;
     }
@@ -71,6 +73,7 @@ abstract class HttpService implements IHttpService {
         }
     }
 
+    // should be removed when the backend project completed 
     protected async fakeAuth<Type>(val: Type): Promise<Type> {
         return new Promise((resolve) => {
             setTimeout(() => resolve(val), 250);
