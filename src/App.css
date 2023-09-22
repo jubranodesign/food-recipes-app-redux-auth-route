@@ -1,3 +1,30 @@
 .hdn {
   display: none;
 }
+
+.FormContainer {
+  background-color: rgb(241, 241, 241);
+  width: 40%;
+  margin: auto;
+  margin-top: 40px;
+  max-width: 600px;
+  padding: 15px;
+}
+
+.FormContainer input,
+textarea {
+  width: 99%;
+  font-size: 1.1rem;
+  height: 50px;
+  border-radius: 3px;
+  padding-left: 1%;
+}
+
+.FormContainer textarea {
+  height: 150px;
+}
+
+.FormContainer .formItem {
+  margin-bottom: 15px;
+  text-align: center;
+}

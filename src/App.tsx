@@ -18,9 +18,9 @@ import NewCategory from './components/NewCategory/NewCategory';
 
 function App() {
   const services = {
-    foodService: new FoodService(),
-    authenticationService: new AuthenticationService(),
-    navigationService: new NavigationService()
+    foodService: new FoodService(''),
+    authenticationService: new AuthenticationService(''),
+    navigationService: new NavigationService('')
   };
   const store = createStore(reducer);
   const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAllNavigationCategories());

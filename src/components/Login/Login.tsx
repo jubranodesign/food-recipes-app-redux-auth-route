@@ -1,9 +1,9 @@
+import './Login.css';
 import { Dispatch, useContext, useState } from "react";
 import AppContext from "../../contexts/AppContext";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateToken } from "../../store/actions/actionCreators";
-import './Login.css'
 import { LoginType } from "../../model/LoginType";
 import { ILogin } from "../../model/ILogin";
 
@@ -39,7 +39,7 @@ export default function Login() {
     }
 
     return (
-        <div id="Login">
+        <div className="FormContainer">
             <div className="formItem">
                 <h3> Log In</h3>
             </div>
