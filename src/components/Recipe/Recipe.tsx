@@ -8,7 +8,7 @@ export default function Recipe(props: { recipe: IRecipe }) {
     const [idMeal, setIdMeal] = useState<number>(0);
     const services = useContext(AppContext);
     const [instructions, setInstructions] = useState<String>("");
-    const { data: recipe } = useQuery(['recipe', idMeal], () => services?.foodService.getRecipeById<any[]>(idMeal));
+    const { data: recipe } = useQuery(['recipe', idMeal], () => services?.foodService.getRecipeById(idMeal));
 
     useEffect(() => {
         const instructions = (recipe !== null) && (recipe !== undefined) && (recipe[0] !== undefined) ? recipe[0].strInstructions : '';

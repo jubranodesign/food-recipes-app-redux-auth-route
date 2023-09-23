@@ -2,7 +2,7 @@ import { INav } from "../../model/INav";
 import HttpService from "./HttpService";
 import { IListService } from "./IListService";
 
-class NavigationService extends HttpService implements IListService<INav[]> {
+class NavigationService extends HttpService implements IListService<INav> {
     private allNavigationCategories: INav[] = [
         {
             id: 1,

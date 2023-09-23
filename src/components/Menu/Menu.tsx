@@ -1,6 +1,5 @@
 import './Menu.css';
 import IFood from '../../model/IFood';
-import IRecipe from '../../model/IRecipe';
 import { Dispatch, useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +9,7 @@ import { updateRecipes } from '../../store/actions/actionCreators';
 export default function Menu(props: { categories: IFood[] | undefined }) {
     const [category, setcategory] = useState<string>("");
     const services = useContext(AppContext);
-    const { data: recipes } = useQuery(['recipes', category], () => services?.foodService.getAllRecipesByCategory<IRecipe[]>(category));
+    const { data: recipes } = useQuery(['recipes', category], () => services?.foodService.getAllRecipesByCategory(category));
     const dispatch: Dispatch<any> = useDispatch()
 
     useEffect(() => {
