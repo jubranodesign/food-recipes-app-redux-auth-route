@@ -1,7 +1,8 @@
 import { INav } from "../../model/INav";
 import HttpService from "./HttpService";
+import { INavigationService } from "./INavigationService";
 
-class NavigationService extends HttpService {
+class NavigationService extends HttpService implements INavigationService {
     private urlNavigations: string = "";
     private allNavigationCategories: INav[] = [
         {
@@ -21,8 +22,12 @@ class NavigationService extends HttpService {
         }
     ]
 
+    constructor(baseURL: string) {
+        super(baseURL)
+    }
+
     public async getAllNavigationCategories(): Promise<INav[]> {
-        const response = await this.fakeAuth<INav[]>(this.allNavigationCategories);
+        const response = await NavigationService.fakeFetch<INav[]>(this.allNavigationCategories);
         return response;
     }
 

@@ -55,25 +55,24 @@ abstract class HttpService implements IHttpService {
         return await this.client.delete(`${id}`);
     }
 
-    // should be removed when the backend project completed or change it to static
-    protected async fetchDataFromAPI(url: string): Promise<Response> {
+    protected static async fetchDataFromAPI(url: string): Promise<Response> {
         return await axios(url);
     }
 
-    // should be removed when the backend project completed or change it to static
-    protected convertResponseToJSON<Type>(res: any): Type {
+    protected static convertResponseToJSON<Type>(res: any): Type {
         return res.data;
     }
 
-    public setAuthToken(tok: string): void {
-        if (tok) {
-            this.client.defaults.headers.common["Authorization"] = `Bearer ${tok}`;
-        } else {
-            delete this.client.defaults.headers.common["Authorization"];
+    public static setAuthToken(tokn: string): void {
+        if (tokn) {
+            axios.defaults.headers.common["Authorization"] = `Bearer ${tokn}`;
         }
+        else
+            delete axios.defaults.headers.common["Authorization"];
     }
 
-    protected async fakeAuth<Type>(val: Type): Promise<Type> {
+    // fake fetch only for test
+    protected static async fakeFetch<Type>(val: Type): Promise<Type> {
         return new Promise((resolve) => {
             setTimeout(() => resolve(val), 250);
         });

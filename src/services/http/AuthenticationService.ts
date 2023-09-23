@@ -1,9 +1,14 @@
 import { ILogin } from "../../model/ILogin";
 import HttpService from "./HttpService";
+import { IAuthenticationService } from "./IAuthenticationService";
 
-class AuthenticationService extends HttpService {
+class AuthenticationService extends HttpService implements IAuthenticationService {
     private _urlLogin: string = "";
     private _token: string = "";
+
+    constructor(baseURL: string) {
+        super(baseURL)
+    }
 
     /**
      * Getter token
@@ -22,12 +27,12 @@ class AuthenticationService extends HttpService {
     }
 
     public async Login(LoginData: ILogin): Promise<void> {
-        //const response = await this.postDataToAPI(this._urlLogin);
-        //const data = this.convertResponseToJSON<{ key : Type }>(response);
-        const response = await this.fakeAuth<string>('2342f2f1d131rf12');
+        //const response = await this.post<ILogin>(this._urlLogin);
+        //const data = FoodService.convertResponseToJSON<Type>(response);
+        const response = await AuthenticationService.fakeFetch<string>('2342f2f1d131rf12');
         this.token = response;
         //set token to axios common header
-        //this.setAuthToken(this.token);
+        //AuthenticationService.setAuthToken(this.token);
         localStorage.setItem("token", this.token);
     }
 
