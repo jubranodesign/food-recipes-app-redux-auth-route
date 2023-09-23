@@ -31,6 +31,7 @@ function App() {
         <div id="App">
           <BrowserRouter>
             <Nav links={navigations} />
+            <Nav isNavShowInFooter={true} links={navigations} />
 
             <Routes>
               <Route index element={<ProtectedRoute><Home /></ProtectedRoute>} />

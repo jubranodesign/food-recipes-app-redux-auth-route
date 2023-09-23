@@ -3,6 +3,7 @@
     display: flex;
     justify-content: center;
     padding: 10px;
+    width: 100%;
 }
 
 .nav-item {
@@ -13,4 +14,9 @@
 
 .nav-item.active {
     background-color: #a8d725;
+}
+
+.Footer {
+    position: fixed;
+    bottom: 0;
 }

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Dispatch, useEffect } from 'react';
 import { updateToken } from '../../store/actions/actionCreators';
-import AuthenticationService from '../../services/http/AuthenticationService';
+import HttpService from '../../services/http/HttpService';
 
 export default function ProtectedRoute(props: { children: JSX.Element }) {
 
@@ -16,7 +16,7 @@ export default function ProtectedRoute(props: { children: JSX.Element }) {
     useEffect(() => {
         if (tokenLocalStorage && !token) {
             //set token to axios common header
-            //AuthenticationService.setAuthToken(tokenLocalStorage);
+            //HttpService.setAuthToken(tokenLocalStorage);
             dispatch(updateToken(tokenLocalStorage));
         }
     }, [token])

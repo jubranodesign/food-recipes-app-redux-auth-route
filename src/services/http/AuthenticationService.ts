@@ -28,7 +28,7 @@ class AuthenticationService extends HttpService implements IAuthenticationServic
 
     public async Login(LoginData: ILogin): Promise<void> {
         //const response = await this.post<ILogin>(this._urlLogin);
-        //const data = FoodService.convertResponseToJSON<Type>(response);
+        //const data = AuthenticationService.convertResponseToJSON<ILogin>(response);
         const response = await AuthenticationService.fakeFetch<string>('2342f2f1d131rf12');
         this.token = response;
         //set token to axios common header
