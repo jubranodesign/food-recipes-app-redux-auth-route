@@ -16,7 +16,14 @@
     background-color: #a8d725;
 }
 
-.Footer {
+.fixed {
     position: fixed;
+}
+
+.top {
+    top: 0
+}
+
+.bottom {
     bottom: 0;
 }
