@@ -30,7 +30,7 @@ export default function NewCategory() {
             return;
         }
 
-        //await services?.foodService.addNewFoodCategory<string>(foodFormData);
+        //await services?.foodService.addNewCategory<string>(foodFormData);
     }
 
     async function addNewRecipeByFoodCategory() {
@@ -55,7 +55,7 @@ export default function NewCategory() {
             return;
         }
 
-        // await services?.foodService.addNewRecipeByFoodCategory<IRecipe_>(recipeFormData);
+        // await services?.foodService.addNewRecipeByCategory<IRecipe_>(recipeFormData);
     }
 
     return (

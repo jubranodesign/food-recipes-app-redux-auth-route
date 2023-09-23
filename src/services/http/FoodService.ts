@@ -11,7 +11,7 @@ class FoodService extends HttpService implements IFoodService {
         super(baseURL)
     }
 
-    public async getAllFoodCategories<Type>(): Promise<Type> {
+    public async getAll<Type>(): Promise<Type> {
         // const response = await this.get('');
         const response = await FoodService.fetchDataFromAPI(this.urlAllFoodCategories);
         const data = FoodService.convertResponseToJSON<{ categories: Type }>(response);
@@ -32,7 +32,7 @@ class FoodService extends HttpService implements IFoodService {
         return data.meals;
     }
 
-    public async addNewFoodCategory<Type>(payload: Type): Promise<Type> {
+    public async addNewCategory<Type>(payload: Type): Promise<Type> {
         const response = await this.post<Type>('', payload);
         return FoodService.convertResponseToJSON<Type>(response);
     }

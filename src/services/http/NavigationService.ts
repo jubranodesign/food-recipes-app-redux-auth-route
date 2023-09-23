@@ -1,9 +1,8 @@
 import { INav } from "../../model/INav";
 import HttpService from "./HttpService";
-import { INavigationService } from "./INavigationService";
+import { IListService } from "./IListService";
 
-class NavigationService extends HttpService implements INavigationService {
-    private urlNavigations: string = "";
+class NavigationService extends HttpService implements IListService<INav[]> {
     private allNavigationCategories: INav[] = [
         {
             id: 1,
@@ -26,7 +25,7 @@ class NavigationService extends HttpService implements INavigationService {
         super(baseURL)
     }
 
-    public async getAllNavigationCategories(): Promise<INav[]> {
+    public async getAll(): Promise<INav[]> {
         const response = await NavigationService.fakeFetch<INav[]>(this.allNavigationCategories);
         return response;
     }

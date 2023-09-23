@@ -4,7 +4,6 @@ import AppContext from './contexts/AppContext';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './store/reducers/reducer';
-import AuthenticationService from './services/http/AuthenticationService';
 import Nav from './components/Nav/Nav';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
@@ -15,15 +14,16 @@ import NoMatch from './components/NoMatch/NoMatch';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './components/Home/Home';
 import NewCategory from './components/NewCategory/NewCategory';
+import LoginAuthenticationService from './services/http/LoginAuthenticationService';
 
 function App() {
   const services = {
     foodService: new FoodService(''),
-    authenticationService: new AuthenticationService(''),
+    loginAuthenticationService: new LoginAuthenticationService(''),
     navigationService: new NavigationService('')
   };
   const store = createStore(reducer);
-  const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAllNavigationCategories());
+  const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAll());
 
   return (
     <Provider store={store}>

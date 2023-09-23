@@ -2,8 +2,7 @@ import { ILogin } from "../../model/ILogin";
 import HttpService from "./HttpService";
 import { IAuthenticationService } from "./IAuthenticationService";
 
-class AuthenticationService extends HttpService implements IAuthenticationService {
-    private _urlLogin: string = "";
+class LoginAuthenticationService extends HttpService implements IAuthenticationService<ILogin> {
     private _token: string = "";
 
     constructor(baseURL: string) {
@@ -29,7 +28,7 @@ class AuthenticationService extends HttpService implements IAuthenticationServic
     public async Login(LoginData: ILogin): Promise<void> {
         //const response = await this.post<ILogin>(this._urlLogin);
         //const data = AuthenticationService.convertResponseToJSON<ILogin>(response);
-        const response = await AuthenticationService.fakeFetch<string>('2342f2f1d131rf12');
+        const response = await LoginAuthenticationService.fakeFetch<string>('2342f2f1d131rf12');
         this.token = response;
         //set token to axios common header
         //AuthenticationService.setAuthToken(this.token);
@@ -43,4 +42,4 @@ class AuthenticationService extends HttpService implements IAuthenticationServic
 
 }
 
-export default AuthenticationService;
+export default LoginAuthenticationService;

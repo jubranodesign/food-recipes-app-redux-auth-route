@@ -19,6 +19,10 @@
     max-width: 600px;
 }
 
+.hideShowDiv .header {
+    cursor: pointer;
+}
+
 .hideShowDiv>p:nth-child(2) {
     margin-top: 10px;
     max-width: 600px;

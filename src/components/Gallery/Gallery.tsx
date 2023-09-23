@@ -8,7 +8,7 @@ import './Gallery.css';
 
 export default function Gallery() {
     const services = useContext(AppContext);
-    const { data: foods } = useQuery(['foods'], () => services?.foodService.getAllFoodCategories<IFood[]>());
+    const { data: foods } = useQuery(['foods'], () => services?.foodService.getAll<IFood[]>());
 
     return (
         <div id="Gallery">

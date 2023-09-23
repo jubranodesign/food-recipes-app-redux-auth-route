@@ -32,8 +32,8 @@ export default function Login() {
             return;
         }
 
-        await services?.authenticationService.Login(LoginformData)
-        dispatch(updateToken(services?.authenticationService.token));
+        await services?.loginAuthenticationService.Login(LoginformData)
+        dispatch(updateToken(services?.loginAuthenticationService.token));
         const origin = location.state?.from?.pathname || '/home';
         navigate(origin);
     }

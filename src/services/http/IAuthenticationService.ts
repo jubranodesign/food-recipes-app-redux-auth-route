@@ -1,7 +1,6 @@
-import { ILogin } from "../../model/ILogin"
 
-export interface IAuthenticationService {
+export interface IAuthenticationService<Type> {
     token: string
-    Login(LoginData: ILogin): Promise<void>
+    Login(LoginData: Type): Promise<void>
     Logout(): void
 }
