@@ -33,7 +33,7 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
         <div id="menuContainer">
             <div className="categoriesMenu hdn">
                 <ul>
-                    {props.categories?.map((curr) => (<li key={curr.idCategory} className='foodCategoriesListItem' onClick={() => showCategoryByName(curr.strCategory)}>{curr.strCategory}</li>))}
+                    {props.categories?.map((curr) => (<li key={curr.idCategory} className={curr.strCategory === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr.strCategory)}>{curr.strCategory}</li>))}
                 </ul>
             </div>
 

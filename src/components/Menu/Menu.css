@@ -11,3 +11,8 @@
     padding: 10px;
     cursor: pointer;
 }
+
+#menuContainer .foodCategoriesListItem.active {
+    background-color: #333;
+    color: #a8d725;
+}
