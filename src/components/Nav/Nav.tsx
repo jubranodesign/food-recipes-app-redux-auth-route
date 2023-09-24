@@ -19,7 +19,7 @@ export default function Nav(props: { links: INav[] | undefined, isNavFixed?: boo
         } else {
             setNavClass('NavBar')
         }
-    }, [])
+    }, [location])
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
