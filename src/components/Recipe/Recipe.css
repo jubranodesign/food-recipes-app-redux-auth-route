@@ -15,11 +15,11 @@
 .hideShowDiv .header {
     display: flex;
     align-items: center;
-    background-color: #333;
+    background-color: #a8d725;
     max-width: 600px;
     height: 40px;
     border-radius: 3px;
-    color: #a8d725;
+    color: #333;
     padding-left: 10px;
 }
 
