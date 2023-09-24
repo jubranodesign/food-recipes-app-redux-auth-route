@@ -6,21 +6,22 @@ import { createStore } from 'redux';
 import reducer from './store/reducers/reducer';
 import Nav from './components/Nav/Nav';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Gallery from './components/Gallery/Gallery';
+import Gallery from './pages/Gallery/Gallery';
 import { useQuery } from '@tanstack/react-query';
 import NavigationService from './services/http/NavigationService';
-import Login from './components/Login/Login';
-import NoMatch from './components/NoMatch/NoMatch';
+import Login from './pages/Login/Login';
+import NoMatch from './pages/NoMatch/NoMatch';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import Home from './components/Home/Home';
-import NewCategory from './components/NewCategory/NewCategory';
+import Home from './pages/Home/Home';
+import NewCategory from './pages/NewCategory/NewCategory';
 import UserAuthenticationService from './services/http/UserAuthenticationService';
+import config from './config/http.json'
 
 function App() {
   const services = {
-    foodService: new FoodService(''),
-    userAuthenticationService: new UserAuthenticationService(''),
-    navigationService: new NavigationService('')
+    foodService: new FoodService(config.foodService.baseURL),
+    userAuthenticationService: new UserAuthenticationService(config.userAuthenticationService.baseURL),
+    navigationService: new NavigationService(config.navigationService.baseURL)
   };
   const store = createStore(reducer);
   const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAll());

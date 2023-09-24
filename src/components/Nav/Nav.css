@@ -29,5 +29,16 @@
 }
 
 .hide {
-    bottom: -70px;
+    bottom: -100px;
+}
+
+.hideSiAcclaim {
+    display: none;
+}
+
+.siAcclaim {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 80px;
 }

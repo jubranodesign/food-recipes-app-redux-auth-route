@@ -1,5 +1,5 @@
-import Menu from '../Menu/Menu';
-import ListRecipes from '../ListRecipes/ListRecipes';
+import Menu from '../../components/Menu/Menu';
+import ListRecipes from '../../components/ListRecipes/ListRecipes';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import AppContext from '../../contexts/AppContext';

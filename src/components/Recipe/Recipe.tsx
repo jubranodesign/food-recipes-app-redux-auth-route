@@ -12,7 +12,7 @@ export default function Recipe(props: { recipe: IRecipe }) {
 
     useEffect(() => {
         const instructions = (recipe !== null) && (recipe !== undefined) && (recipe[0] !== undefined) ? recipe[0].strInstructions : '';
-        setInstructions(instructions);
+        setInstructions(instructions)
     }, [recipe])
 
     function showDetailsRecipe(e: any, idMeal: number) {
@@ -39,9 +39,9 @@ export default function Recipe(props: { recipe: IRecipe }) {
                     <p className='instructionTitle'>Show Instructions</p>
                     <span className="material-symbols-outlined">keyboard_double_arrow_down</span>
                 </div>
-                <p id={'instructions' + props.recipe.idMeal} className='hdn'>
-                    {instructions}
-                </p>
+                <div id={'instructions' + props.recipe.idMeal} className='hdn'>
+                    {instructions.split(".").map((str, index) => <p key={index}>{str}.<br /><br /></p>)}
+                </div>
             </div>
         </div>
 

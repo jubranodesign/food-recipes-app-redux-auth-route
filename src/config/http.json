@@ -1,0 +1,11 @@
+{
+    "foodService": {
+        "baseURL": ""
+    },
+    "userAuthenticationService": {
+        "baseURL": ""
+    },
+    "navigationService": {
+        "baseURL": ""
+    }
+}
