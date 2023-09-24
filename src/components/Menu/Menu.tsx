@@ -38,7 +38,7 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
             </div>
 
             <div onClick={toggleMenu}>
-                <span className="material-symbols-outlined">
+                <span className="material-symbols-outlined cursorHand">
                     menu
                 </span>
             </div>

@@ -16,3 +16,7 @@
     background-color: #a8d725;
     color: #333;
 }
+
+#menuContainer .cursorHand {
+    cursor: pointer;
+}
