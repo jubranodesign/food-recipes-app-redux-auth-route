@@ -27,3 +27,7 @@
 .bottom {
     bottom: 0;
 }
+
+.hide {
+    bottom: -70px;
+}
