@@ -14,12 +14,12 @@ import NoMatch from './components/NoMatch/NoMatch';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './components/Home/Home';
 import NewCategory from './components/NewCategory/NewCategory';
-import LoginAuthenticationService from './services/http/LoginAuthenticationService';
+import UserAuthenticationService from './services/http/UserAuthenticationService';
 
 function App() {
   const services = {
     foodService: new FoodService(''),
-    loginAuthenticationService: new LoginAuthenticationService(''),
+    userAuthenticationService: new UserAuthenticationService(''),
     navigationService: new NavigationService('')
   };
   const store = createStore(reducer);

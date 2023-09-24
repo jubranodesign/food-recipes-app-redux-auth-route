@@ -1,10 +1,10 @@
 import FoodService from "../services/http/FoodService";
-import LoginAuthenticationService from "../services/http/LoginAuthenticationService";
 import NavigationService from "../services/http/NavigationService";
+import UserAuthenticationService from "../services/http/UserAuthenticationService";
 
 interface IGlobalService {
     foodService: FoodService;
-    loginAuthenticationService: LoginAuthenticationService,
+    userAuthenticationService: UserAuthenticationService,
     navigationService: NavigationService
 }
 

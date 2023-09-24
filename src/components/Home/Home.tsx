@@ -13,8 +13,8 @@ export default function Home() {
     )
 
     async function Logout() {
-        await services?.loginAuthenticationService.Logout();
-        dispatch(updateToken(services?.loginAuthenticationService.token));
+        await services?.userAuthenticationService.Logout();
+        dispatch(updateToken(services?.userAuthenticationService.token));
     }
 
     return (
