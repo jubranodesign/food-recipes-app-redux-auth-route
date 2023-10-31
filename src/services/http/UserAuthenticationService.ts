@@ -1,4 +1,5 @@
 import { ILogin } from "../../model/ILogin";
+import IUser from "../../model/IUser";
 import HttpService from "./HttpService";
 import { IAuthenticationService } from "./IAuthenticationService";
 
@@ -26,12 +27,10 @@ class UserAuthenticationService extends HttpService implements IAuthenticationSe
     }
 
     public async Login(LoginData: ILogin): Promise<void> {
-        //const response = await this.post<ILogin>(this._urlLogin);
-        //const data = AuthenticationService.convertResponseToJSON<ILogin>(response);
-        const response = await UserAuthenticationService.fakeFetch<string>('2342f2f1d131rf12');
-        this.token = response;
-        //set token to axios common header
-        //AuthenticationService.setAuthToken(this.token);
+        const response = await this.post<ILogin>("/login", LoginData);
+        const data = UserAuthenticationService.convertResponseToJSON<IUser>(response);
+        this.token = data.token;
+        //set token to local Storage
         localStorage.setItem("token", this.token);
     }
 

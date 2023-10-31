@@ -1,4 +1,4 @@
-import { Dispatch, useContext } from "react";
+import { Dispatch, useContext, useEffect } from "react";
 import AppContext from "../../contexts/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { updateToken } from "../../store/actions/actionCreators";
@@ -11,6 +11,12 @@ export default function Home() {
     let token: string | null | undefined = useSelector(
         (state: any) => state.tokenReducer.token
     )
+
+    useEffect(() => {
+        //set token to axios common header
+        services?.foodService.setAuthToken(token!);
+        services?.navigationService.setAuthToken(token!);
+    }, [token])
 
     async function Logout() {
         await services?.userAuthenticationService.Logout();

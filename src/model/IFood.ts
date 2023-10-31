@@ -1,6 +1,6 @@
 interface IFood {
-    strCategory: string;
-    idCategory: number;
+    _id: string;
+    name: string;
 }
 
 export default IFood;

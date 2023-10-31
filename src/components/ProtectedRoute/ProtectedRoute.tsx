@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Dispatch, useEffect } from 'react';
+import { Dispatch, useContext, useEffect } from 'react';
 import { updateToken } from '../../store/actions/actionCreators';
-import HttpService from '../../services/http/HttpService';
+import AppContext from '../../contexts/AppContext';
 
 export default function ProtectedRoute(props: { children: JSX.Element }) {
+    const services = useContext(AppContext);
 
     let token: string | null | undefined = useSelector(
         (state: any) => state.tokenReducer.token
@@ -16,7 +17,8 @@ export default function ProtectedRoute(props: { children: JSX.Element }) {
     useEffect(() => {
         if (tokenLocalStorage && !token) {
             //set token to axios common header
-            //HttpService.setAuthToken(tokenLocalStorage);
+            services?.foodService.setAuthToken(tokenLocalStorage);
+            services?.navigationService.setAuthToken(tokenLocalStorage);
             dispatch(updateToken(tokenLocalStorage));
         }
     }, [token])

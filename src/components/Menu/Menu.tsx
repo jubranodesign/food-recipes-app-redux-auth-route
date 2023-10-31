@@ -23,9 +23,9 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
         categoriesMenu.classList.toggle('hdn');
     }
 
-    function showCategoryByName(cat: string) {
-        if (cat !== category) {
-            setcategory(cat);
+    function showCategoryByName(id: string) {
+        if (id !== category) {
+            setcategory(id);
         }
     }
 
@@ -33,7 +33,7 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
         <div id="menuContainer">
             <div className="categoriesMenu hdn">
                 <ul>
-                    {props.categories?.map((curr) => (<li key={curr.idCategory} className={curr.strCategory === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr.strCategory)}>{curr.strCategory}</li>))}
+                    {props.categories?.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>{curr.name}</li>))}
                 </ul>
             </div>
 

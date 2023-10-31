@@ -1,6 +1,9 @@
-export interface IFoodService<FoodType, RecipeType, AnyType> {
-    getAll(): Promise<FoodType[]>
-    getAllRecipesByCategory(category: string): Promise<RecipeType[]>
-    getRecipeById(id: number): Promise<AnyType[]>
-    addNewCategory(payload: FoodType): Promise<FoodType>
+import IFood from "../../model/IFood"
+
+export interface IFoodService<IFoodType, FoodType, IRecipeType, RecipeType> {
+    getAll(): Promise<IFoodType[]>
+    addNewCategory(food: FoodType): Promise<IFoodType>
+    getAllRecipesByCategory(id: string): Promise<RecipeType[]>
+    addNewRecipeByCategory(recipe: RecipeType): Promise<IRecipeType>
+    // getRecipeById(id: number): Promise<IRecipeType>
 }

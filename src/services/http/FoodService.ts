@@ -1,44 +1,44 @@
+import Food from "../../model/Food";
 import IFood from "../../model/IFood";
 import IRecipe from "../../model/IRecipe";
+import Recipe from "../../model/Recipe";
 import HttpService from "./HttpService";
 import { IFoodService } from "./IFoodService";
 
-class FoodService extends HttpService implements IFoodService<IFood, IRecipe, any> {
-
-    private urlAllFoodCategories: string = "https://www.themealdb.com/api/json/v1/1/categories.php";
-    private urlRecipesByCategory: string = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
-    private urlInstructionsByRecipe: string = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
+class FoodService extends HttpService implements IFoodService<IFood, Food, IRecipe, Recipe> {
 
     constructor(baseURL: string) {
         super(baseURL)
     }
 
     public async getAll(): Promise<IFood[]> {
-        // const response = await this.get('');
-        const response = await FoodService.fetchDataFromAPI(this.urlAllFoodCategories);
-        const data = FoodService.convertResponseToJSON<{ categories: IFood[] }>(response);
-        return data.categories;
+        const response = await this.get('/');
+        const data = FoodService.convertResponseToJSON<IFood[]>(response);
+        return data;
     }
 
-    public async getAllRecipesByCategory(category: string): Promise<IRecipe[]> {
-        //const response = await this.get(`/${category}`);
-        const response = await FoodService.fetchDataFromAPI(this.urlRecipesByCategory + category);
-        const data = FoodService.convertResponseToJSON<{ meals: IRecipe[] }>(response);
-        return data.meals;
-    }
-
-    public async getRecipeById(id: number): Promise<any[]> {
-        //const response = await this.get(`category/recipe/${id}`);
-        const response = await FoodService.fetchDataFromAPI(this.urlInstructionsByRecipe + id);
-        const data = FoodService.convertResponseToJSON<{ meals: any[] }>(response);
-        return data.meals;
-    }
-
-    public async addNewCategory(payload: IFood): Promise<IFood> {
-        const response = await this.post<IFood>('', payload);
+    public async addNewCategory(food: Food): Promise<IFood> {
+        const response = await this.post<Food>('/', food);
         return FoodService.convertResponseToJSON<IFood>(response);
     }
 
+    public async getAllRecipesByCategory(id: string): Promise<IRecipe[]> {
+        const response = await this.get(`/${id}/recipes`);
+        const data = FoodService.convertResponseToJSON<IRecipe[]>(response);
+        return data;
+    }
+
+    public async addNewRecipeByCategory(recipe: Recipe): Promise<IRecipe> {
+        const response = await this.post<Recipe>(`/${recipe.categoryId}/recipes`, recipe);
+        return FoodService.convertResponseToJSON<IRecipe>(response);
+    }
+
+    // public async getRecipeById(id: number): Promise<any[]> {
+    //     //const response = await this.get(`category/recipe/${id}`);
+    //     const response = await FoodService.fetchDataFromAPI(this.urlInstructionsByRecipe + id);
+    //     const data = FoodService.convertResponseToJSON<{ meals: any[] }>(response);
+    //     return data.meals;
+    // }
 }
 
 export default FoodService;

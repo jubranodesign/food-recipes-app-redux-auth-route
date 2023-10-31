@@ -46,7 +46,7 @@ export default function Nav(props: { links: INav[] | undefined, isNavFixed?: boo
         <div>
             <nav className={navClass}>
                 <SiAcclaim width={'400'} className={props.isNavFixed ? 'siAcclaim' : 'hideSiAcclaim'} onClick={scrollTop} />
-                {props.links?.map((curr) => (<Link key={curr.id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))}
+                {props.links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))}
             </nav>
         </div>
     )

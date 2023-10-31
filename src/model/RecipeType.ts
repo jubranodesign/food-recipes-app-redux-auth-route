@@ -1,6 +1,6 @@
 export type RecipeType = keyof {
-    nameCategory: ""
-    nameRecipe: ""
+    categoryId: ""
+    name: ""
     urlImg: ""
     instructions: ""
 }

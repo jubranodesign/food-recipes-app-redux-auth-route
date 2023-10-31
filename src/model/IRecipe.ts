@@ -1,7 +1,9 @@
 interface IRecipe {
-    strMeal: string;
-    idMeal: number;
-    strMealThumb: string;
+    _id: string;
+    categoryId: string;
+    name: string;
+    urlImg: string;
+    instructions: string;
 }
 
 export default IRecipe;

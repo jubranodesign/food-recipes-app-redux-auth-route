@@ -13,7 +13,7 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const [LoginformData, setLoginFormData] = useState<ILogin>({
-        name: '',
+        userName: '',
         password: ''
     })
 
@@ -23,7 +23,7 @@ export default function Login() {
 
     async function Login() {
 
-        if (LoginformData.name === '') {
+        if (LoginformData.userName === '') {
             alert('Invalid Form, First Name can not be empty')
             return;
         }
@@ -44,7 +44,7 @@ export default function Login() {
                 <h3> Log In</h3>
             </div>
             <div className="formItem">
-                <input type="text" onInput={(e) => { updateFormData(e, "name"); }} placeholder="name" />
+                <input type="text" onInput={(e) => { updateFormData(e, "userName"); }} placeholder="userName" />
             </div>
             <div className="formItem">
                 <input type="text" onInput={(e) => { updateFormData(e, "password"); }} placeholder="password" />

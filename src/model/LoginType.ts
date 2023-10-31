@@ -1,4 +1,4 @@
 export type LoginType = keyof {
-    name: ""
+    userName: ""
     password: ""
 }

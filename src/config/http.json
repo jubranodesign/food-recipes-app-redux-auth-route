@@ -1,11 +1,11 @@
 {
     "foodService": {
-        "baseURL": ""
+        "baseURL": "http://localhost:3001/api/foods"
     },
     "userAuthenticationService": {
-        "baseURL": ""
+        "baseURL": "http://localhost:3001/api/user"
     },
     "navigationService": {
-        "baseURL": ""
+        "baseURL": "http://localhost:3001/api/navigation"
     }
 }

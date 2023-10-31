@@ -67,7 +67,7 @@ export default function ListRecipes() {
 
     return (
         <div id="recipesMainDisplay">
-            {recipesLazy.items.map((curr) => (<Recipe key={curr.idMeal} recipe={curr} />))}
+            {recipesLazy.items.map((curr) => (<Recipe key={curr._id} recipe={curr} />))}
         </div>
     )
 }

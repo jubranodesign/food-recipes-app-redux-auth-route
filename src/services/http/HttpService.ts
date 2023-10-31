@@ -63,12 +63,12 @@ abstract class HttpService implements IHttpService {
         return res.data;
     }
 
-    public static setAuthToken(tokn: string): void {
+    public setAuthToken(tokn: string): void {
         if (tokn) {
-            axios.defaults.headers.common["Authorization"] = `Bearer ${tokn}`;
+            this.client.defaults.headers.common["Authorization"] = `Bearer ${tokn}`;
         }
         else
-            delete axios.defaults.headers.common["Authorization"];
+            delete this.client.defaults.headers.common["Authorization"];
     }
 
     // fake fetch only for test
