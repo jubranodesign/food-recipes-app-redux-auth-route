@@ -1,5 +1,6 @@
 import Food from "../../model/Food";
 import IFood from "../../model/IFood";
+import IPage from "../../model/IPage";
 import IRecipe from "../../model/IRecipe";
 import Recipe from "../../model/Recipe";
 import HttpService from "./HttpService";
@@ -22,9 +23,9 @@ class FoodService extends HttpService implements IFoodService<IFood, Food, IReci
         return FoodService.convertResponseToJSON<IFood>(response);
     }
 
-    public async getAllRecipesByCategory(id: string): Promise<IRecipe[]> {
-        const response = await this.get(`/${id}/recipes`);
-        const data = FoodService.convertResponseToJSON<IRecipe[]>(response);
+    public async getRecipesByFoodPage(id: string, page: string, limit: string): Promise<IPage<IRecipe>> {
+        const response = await this.get(`/${id}/recipes?page=${page}&limit=${limit}`);
+        const data = FoodService.convertResponseToJSON<IPage<IRecipe>>(response);
         return data;
     }
 

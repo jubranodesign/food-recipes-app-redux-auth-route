@@ -3,7 +3,7 @@ import IRecipeState from "../../model/store/IRecipeState";
 import * as actionTypes from "../actions/actionTypes"
 
 const initialState: IRecipeState = {
-    recipes: []
+    recipes: undefined
 }
 
 const recipesReducer = (

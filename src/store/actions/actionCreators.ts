@@ -1,9 +1,10 @@
+import IPage from "../../model/IPage";
 import IRecipe from "../../model/IRecipe";
 import IRecipeAction from "../../model/store/IRecipeAction";
 import ITokenAction from "../../model/store/ITokenAction";
 import * as actionTypes from "./actionTypes"
 
-export function updateRecipes(recipes: IRecipe[] | undefined) {
+export function updateRecipes(recipes: IPage<IRecipe> | undefined) {
     const action: IRecipeAction = {
         type: actionTypes.UPDATE_RECIPES,
         recipes,

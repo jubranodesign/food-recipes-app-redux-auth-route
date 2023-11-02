@@ -9,7 +9,7 @@ import { updateRecipes } from '../../store/actions/actionCreators';
 export default function Menu(props: { categories: IFood[] | undefined }) {
     const [category, setcategory] = useState<string>("");
     const services = useContext(AppContext);
-    const { data: recipes } = useQuery(['recipes', category], () => services?.foodService.getAllRecipesByCategory(category));
+    const { data: recipes } = useQuery(['recipes', category], () => services?.foodService.getRecipesByFoodPage(category, '1', '9'));
     const dispatch: Dispatch<any> = useDispatch()
 
     useEffect(() => {

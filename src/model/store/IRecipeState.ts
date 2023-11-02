@@ -1,7 +1,8 @@
+import IPage from "../IPage";
 import IRecipe from "../IRecipe";
 
 interface IRecipeState {
-    recipes: IRecipe[] | undefined
+    recipes: IPage<IRecipe> | undefined
 }
 
 export default IRecipeState;
