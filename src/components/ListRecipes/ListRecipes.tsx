@@ -21,12 +21,13 @@ export default function ListRecipes() {
     useEffect(() => {
         if (recipes !== undefined) {
             setPage(1);
+            setCategoryId('');
             setRecipesLazy(recipes.items);
         }
     }, [recipes])
 
     useEffect(() => {
-        if (page > 1 && moreRecipes !== undefined) {
+        if (moreRecipes !== undefined) {
             setRecipesLazy([...recipesLazy, ...moreRecipes.items]);
         }
     }, [moreRecipes])
