@@ -15,9 +15,10 @@ export default function ProtectedRoute(props: { children: JSX.Element }) {
     const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        if (tokenLocalStorage && !token) {
+        if (tokenLocalStorage) {
             //set token to axios common header
             services?.foodService.setAuthToken(tokenLocalStorage);
+            services?.recipeService.setAuthToken(tokenLocalStorage);
             services?.navigationService.setAuthToken(tokenLocalStorage);
             dispatch(updateToken(tokenLocalStorage));
         }

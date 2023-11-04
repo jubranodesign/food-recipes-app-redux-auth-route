@@ -1,14 +1,21 @@
 
 import './NewCategory.css';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { RecipeType } from '../../model/RecipeType';
 import Recipe from '../../model/Recipe';
 import Food from '../../model/Food';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export default function NewCategory() {
     const services = useContext(AppContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const pathname = location.pathname;
+    const { id } = useParams();
+    const [foodId, setFoodId] = useState<string>();
+    const [recipeId, setRecipeId] = useState<string>();
     const [foodFormData, setFoodFormData] = useState<Food>({
         name: ''
     });
@@ -18,7 +25,34 @@ export default function NewCategory() {
         urlImg: '',
         instructions: ''
     });
-    const { data: foods } = useQuery(['foods'], () => services?.foodService.getAll());
+    const { data: foods } = useQuery(['foods'], () => services?.foodService.getAllItems());
+    const { data: food } = useQuery(['food', foodId], () => services?.foodService.getItem(foodId!));
+    const { data: recipe } = useQuery(['recipe', recipeId], () => services?.recipeService.getItem(recipeId!));
+
+    useEffect(() => {
+        if (pathname.includes('edit-food')) {
+            setFoodId(id);
+        }
+        if (pathname.includes('edit-recipe')) {
+            setRecipeId(id);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (food !== undefined) {
+            const foodObj = new Food();
+            foodObj.name = food.name;
+            setFoodFormData(foodObj);
+        }
+        if (recipe !== undefined) {
+            const recipeObj = new Recipe();
+            recipeObj.categoryId = recipe.categoryId;
+            recipeObj.name = recipe.name;
+            recipeObj.urlImg = recipe.urlImg;
+            recipeObj.instructions = recipe.instructions;
+            setRecipeFormData(recipeObj);
+        }
+    }, [food, recipe])
 
     function updateFoodFormData(e: React.FormEvent<HTMLInputElement>, str: "name") {
         setFoodFormData({ ...foodFormData, [str]: (e.target as HTMLInputElement).value });
@@ -28,18 +62,22 @@ export default function NewCategory() {
         setRecipeFormData({ ...recipeFormData, [str]: (e.target as HTMLInputElement).value });
     }
 
-    async function addNewFoodCategory() {
-
+    async function addOrUpdateFoodCategory() {
         if (foodFormData.name === '') {
             alert('Invalid Form, Food Category can not be empty');
             return;
         }
 
-        await services?.foodService.addNewCategory(foodFormData!);
+        if (pathname.includes('new-category')) {
+            await services?.foodService.addItem(foodFormData!);
+            alert('New Food Added');
+        } else {
+            await services?.foodService.updateItem(id!.toString(), foodFormData!);
+            alert('Food Updated');
+        }
     }
 
-    async function addNewRecipeByFoodCategory() {
-
+    async function addOrUpdateRecipeByFoodCategory() {
         if (recipeFormData.categoryId === '') {
             alert('Invalid Form, Food Category can not be empty')
             return;
@@ -60,44 +98,56 @@ export default function NewCategory() {
             return;
         }
 
-        await services?.foodService.addNewRecipeByCategory(recipeFormData);
+        if (pathname.includes('new-category')) {
+            await services?.recipeService.addItem(recipeFormData);
+            alert('New Recipe Added');
+        } else {
+            await services?.recipeService.updateItem(id!.toString(), recipeFormData);
+            alert('Recipe Updated');
+        }
     }
 
     return (
         <>
-            <div className="FormContainer">
+            <div className={pathname.includes('new-category') || pathname.includes('edit-food') ? 'FormContainer' : 'hdn'}>
                 <div className="formItem">
-                    <h3> add New Category</h3>
+                    <h3> {pathname.includes('edit-food') ? 'update Category' : 'add New Category'}</h3>
                 </div>
                 <div className="formItem">
-                    <input type="text" onInput={(e) => { updateFoodFormData(e, "name"); }} placeholder="Food Category" />
+                    <input type="text" onInput={(e) => { updateFoodFormData(e, "name"); }} placeholder="Food Category" value={foodFormData.name} />
                 </div>
                 <div className="formItem">
-                    <input className="Login" type="button" onClick={addNewFoodCategory} value="add New Category" />
+                    <input type="button" onClick={addOrUpdateFoodCategory} value="Save Category" />
+                </div>
+                <div className="formItem">
+                    <input className={pathname.includes('edit-food') ? '' : 'hdn'} type="button" onClick={() => navigate('/gallery', { state: { category: location.state.category } })} value="back" />
                 </div>
             </div>
 
-            <div className="FormContainer">
+            <div className={pathname.includes('new-category') || pathname.includes('edit-recipe') ? 'FormContainer' : 'hdn'}>
                 <div className="formItem">
-                    <h3> add New Recipe by Category</h3>
+                    <h3> {pathname.includes('edit-recipe') ? 'update Recipe by Category' : 'add New Recipe by Category'}</h3>
                 </div>
                 <div className="formItem">
-                    <select onChange={(e) => { updateRecipeFormData(e, "categoryId"); }} >
-                        <option value="">Choose Category</option>
+                    <select value={recipeFormData.categoryId} onChange={(e) => { updateRecipeFormData(e, "categoryId"); }} >
+                        <option value=''>Choose Category</option>
                         {foods?.map((curr) => (<option key={curr._id} value={curr._id}>{curr.name}</option>))}
                     </select>
                 </div>
                 <div className="formItem">
-                    <input type="text" onInput={(e) => { updateRecipeFormData(e, "name"); }} placeholder="name" />
+                    <input type="text" onInput={(e) => { updateRecipeFormData(e, "name"); }} placeholder="name" value={recipeFormData.name} />
                 </div>
                 <div className="formItem">
-                    <input type="text" onInput={(e) => { updateRecipeFormData(e, "urlImg"); }} placeholder="url Img" />
+                    <input type="text" onInput={(e) => { updateRecipeFormData(e, "urlImg"); }} placeholder="url Img" value={recipeFormData.urlImg} />
                 </div>
                 <div className="formItem">
-                    <textarea onInput={(e) => { updateRecipeFormData(e, "instructions"); }} placeholder="instructions" />
+                    <textarea onInput={(e) => { updateRecipeFormData(e, "instructions"); }} placeholder="instructions" value={recipeFormData.instructions} />
                 </div>
                 <div className="formItem">
-                    <input className="Login" type="button" onClick={addNewRecipeByFoodCategory} value="add New Recipe" />
+                    <input type="button" onClick={addOrUpdateRecipeByFoodCategory} value="Save Recipe" />
+                </div>
+                <div className="formItem">
+                    <input className={pathname.includes('edit-recipe') ? '' : 'hdn'} type="button" onClick={() => navigate('/gallery', { state: { category: location.state.category } })} value="back" />
                 </div>
             </div>
         </>

@@ -16,7 +16,7 @@ export default function ListRecipes() {
     const recipes: IPage<IRecipe> = useSelector(
         (state: any) => state.recipesReducer.recipes
     )
-    const { data: moreRecipes } = useQuery(['recipes', categoryId, page], () => services?.foodService.getRecipesByFoodPage(categoryId, page.toString(), '9'));
+    const { data: moreRecipes } = useQuery(['recipes', categoryId, page], () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'));
 
     useEffect(() => {
         if (recipes !== undefined) {
@@ -54,6 +54,14 @@ export default function ListRecipes() {
         if (page <= recipes.totalPages) {
             setPage(prevPage => prevPage + 1);
         }
+    }
+
+    function removeRecipe(id: string) {
+        setRecipesLazy(
+            recipesLazy.filter((recipeLazy) => {
+                return recipeLazy._id !== id;
+            })
+        );
     }
 
     // const [recipesLazy, setRecipesLazy] = useState<ILazy>({
@@ -100,7 +108,7 @@ export default function ListRecipes() {
 
     return (
         <div id="recipesMainDisplay">
-            {recipesLazy.map((curr) => (<Recipe key={curr._id} recipe={curr} />))}
+            {recipesLazy.map((curr) => (<Recipe key={curr._id} recipe={curr} removeRecipeFn={removeRecipe} />))}
         </div>
     )
 }

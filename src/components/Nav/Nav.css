@@ -18,6 +18,7 @@
 
 .fixed {
     position: fixed;
+    z-index: 100;
 }
 
 .top {

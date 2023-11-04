@@ -2,6 +2,9 @@
     "foodService": {
         "baseURL": "http://localhost:3001/api/foods"
     },
+    "recipeService": {
+        "baseURL": "http://localhost:3001/api/recipes"
+    },
     "userAuthenticationService": {
         "baseURL": "http://localhost:3001/api/user"
     },

@@ -16,15 +16,17 @@ import Home from './pages/Home/Home';
 import NewCategory from './pages/NewCategory/NewCategory';
 import UserAuthenticationService from './services/http/UserAuthenticationService';
 import config from './config/http.json'
+import RecipeService from './services/http/RecipeService';
 
 function App() {
   const services = {
     foodService: new FoodService(config.foodService.baseURL),
+    recipeService: new RecipeService(config.recipeService.baseURL),
     userAuthenticationService: new UserAuthenticationService(config.userAuthenticationService.baseURL),
     navigationService: new NavigationService(config.navigationService.baseURL)
   };
   const store = createStore(reducer);
-  const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAll());
+  const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAllItems());
 
   return (
     <Provider store={store}>
@@ -39,7 +41,8 @@ function App() {
               <Route path="home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               <Route path="gallery" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
               <Route path="new-category" element={<ProtectedRoute><NewCategory /></ProtectedRoute>} />
-
+              <Route path="edit-food/:id" element={<ProtectedRoute><NewCategory /></ProtectedRoute>} />
+              <Route path="edit-recipe/:id" element={<ProtectedRoute><NewCategory /></ProtectedRoute>} />
               <Route path="login" element={<Login />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>

@@ -20,3 +20,18 @@
 #menuContainer .cursorHand {
     cursor: pointer;
 }
+
+#menuContainer ul li {
+    position: relative;
+}
+
+.categoriesMenu .edit {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    display: none;
+}
+
+.categoriesMenu li:hover .edit {
+    display: block;
+}

@@ -51,12 +51,12 @@ abstract class HttpService implements IHttpService {
         return await this.client.post(url, payload);
     }
 
-    protected async delete(id: number): Promise<Response> {
-        return await this.client.delete(`${id}`);
+    protected async put<Type>(url: string, payload: Type): Promise<Response> {
+        return await this.client.put(url, payload);
     }
 
-    protected static async fetchDataFromAPI(url: string): Promise<Response> {
-        return await axios(url);
+    protected async delete(url: string): Promise<Response> {
+        return await this.client.delete(url);
     }
 
     protected static convertResponseToJSON<Type>(res: any): Type {
@@ -69,6 +69,10 @@ abstract class HttpService implements IHttpService {
         }
         else
             delete this.client.defaults.headers.common["Authorization"];
+    }
+
+    protected static async fetchDataFromAPI(url: string): Promise<Response> {
+        return await axios(url);
     }
 
     // fake fetch only for test
