@@ -30,9 +30,7 @@ export default function ListRecipes() {
     useEffect(() => {
         if (moreRecipes !== undefined) {
             if (prevRef.current?.items[0] === moreRecipes?.items[0]) {
-                if (prevRef.current?.items.length < moreRecipes.items.length) {
-                    recipesLazy.splice((recipesLazy.length - prevRef.current?.items.length) - 1, prevRef.current?.items.length);
-                }
+                recipesLazy.splice((recipesLazy.length - prevRef.current?.items.length) - 1, prevRef.current?.items.length);
             } else {
                 if (prevRef.current !== undefined) {
                     setRecipesLazy([...recipesLazy, ...prevRef.current?.items]);

@@ -141,6 +141,9 @@ export default function NewCategory() {
                     <input type="text" onInput={(e) => { updateRecipeFormData(e, "urlImg"); }} placeholder="url Img" value={recipeFormData.urlImg} />
                 </div>
                 <div className="formItem">
+                    <img className={recipeFormData.urlImg === null ? 'hdn' : ''} src={recipeFormData.urlImg} />
+                </div>
+                <div className="formItem">
                     <textarea onInput={(e) => { updateRecipeFormData(e, "instructions"); }} placeholder="instructions" value={recipeFormData.instructions} />
                 </div>
                 <div className="formItem">
