@@ -2,7 +2,7 @@
 
 This project covers several software and web concepts:
 html, css, dom, oop, singlton and dependency injection with react context, promise, async await, caching with react query, 
-share state between components with redux, routing, authentication(simulation), forms, infinite scroll, rest api, static typing and generics with typescript.
+share state between components with redux, routing, authentication(jwt), forms, infinite scroll, rest api, static typing and generics with typescript.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
