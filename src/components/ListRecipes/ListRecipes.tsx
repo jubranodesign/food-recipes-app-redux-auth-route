@@ -1,7 +1,7 @@
 import './ListRecipes.css';
 import IRecipe from '../../model/IRecipe';
 import { useSelector } from 'react-redux';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Recipe from '../Recipe/Recipe';
 import ILazy from '../../model/ILazy';
 import IPage from '../../model/IPage';
@@ -17,6 +17,7 @@ export default function ListRecipes() {
         (state: any) => state.recipesReducer.recipes
     )
     const { data: moreRecipes } = useQuery(['recipes', categoryId, page], () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'));
+    const prevRef = useRef<IPage<IRecipe>>();
 
     useEffect(() => {
         if (recipes !== undefined) {
@@ -28,7 +29,17 @@ export default function ListRecipes() {
 
     useEffect(() => {
         if (moreRecipes !== undefined) {
-            setRecipesLazy([...recipesLazy, ...moreRecipes.items]);
+            if (prevRef.current?.items[0] === moreRecipes?.items[0]) {
+                if (prevRef.current?.items.length < moreRecipes.items.length) {
+                    recipesLazy.splice((recipesLazy.length - prevRef.current?.items.length) - 1, prevRef.current?.items.length);
+                }
+            } else {
+                if (prevRef.current !== undefined) {
+                    setRecipesLazy([...recipesLazy, ...prevRef.current?.items]);
+                }
+            }
+
+            prevRef.current = moreRecipes;
         }
     }, [moreRecipes])
 
