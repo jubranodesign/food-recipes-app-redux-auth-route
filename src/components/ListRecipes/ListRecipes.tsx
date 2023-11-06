@@ -16,7 +16,7 @@ export default function ListRecipes() {
     const recipes: IPage<IRecipe> = useSelector(
         (state: any) => state.recipesReducer.recipes
     )
-    const { data: moreRecipes } = useQuery(['recipes', categoryId, page], () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'));
+    const { data: moreRecipes, refetch } = useQuery(['recipes', categoryId, page], () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'));
     const prevRef = useRef<IPage<IRecipe>>();
 
     useEffect(() => {
@@ -29,15 +29,23 @@ export default function ListRecipes() {
 
     useEffect(() => {
         if (moreRecipes !== undefined) {
+
+            if (moreRecipes.currentPage === moreRecipes.totalPages) {
+                refetch();
+            }
+
             if (prevRef.current?.items[0] === moreRecipes?.items[0]) {
-                recipesLazy.splice((recipesLazy.length - prevRef.current?.items.length) - 1, prevRef.current?.items.length);
+                let more = moreRecipes?.items.slice();
+                more.splice(0, prevRef.current?.items.length);
+                let concat = recipesLazy.concat(more).slice();
+                setRecipesLazy(concat);
             } else {
-                if (prevRef.current !== undefined) {
-                    setRecipesLazy([...recipesLazy, ...prevRef.current?.items]);
-                }
+                let concat = recipesLazy.concat(moreRecipes.items).slice();
+                setRecipesLazy(concat);
             }
 
             prevRef.current = moreRecipes;
+
         }
     }, [moreRecipes])
 
@@ -66,6 +74,7 @@ export default function ListRecipes() {
     }
 
     function removeRecipe(id: string) {
+        // required improvement
         setRecipesLazy(
             recipesLazy.filter((recipeLazy) => {
                 return recipeLazy._id !== id;
