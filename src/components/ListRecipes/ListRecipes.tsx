@@ -34,15 +34,17 @@ export default function ListRecipes() {
                 refetch();
             }
 
+            const newItems = moreRecipes?.items.slice();
+            let selectedItems: IRecipe[] = [];
+
             if (prevRef.current?.items[0] === moreRecipes?.items[0]) {
-                let more = moreRecipes?.items.slice();
-                more.splice(0, prevRef.current?.items.length);
-                let concat = recipesLazy.concat(more).slice();
-                setRecipesLazy(concat);
+                newItems.splice(0, prevRef.current?.items.length);
+                selectedItems = newItems;
             } else {
-                let concat = recipesLazy.concat(moreRecipes.items).slice();
-                setRecipesLazy(concat);
+                selectedItems = moreRecipes.items;
             }
+
+            setRecipesLazy(recipesLazy.concat(selectedItems));
 
             prevRef.current = moreRecipes;
 
