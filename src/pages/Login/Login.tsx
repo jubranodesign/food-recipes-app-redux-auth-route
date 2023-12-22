@@ -32,10 +32,15 @@ export default function Login() {
             return;
         }
 
-        await services?.userAuthenticationService.Login(LoginformData)
-        dispatch(updateToken(services?.userAuthenticationService.token));
-        const origin = location.state?.from?.pathname || '/home';
-        navigate(origin);
+        try {
+            await services?.userAuthenticationService.Login(LoginformData)
+            dispatch(updateToken(services?.userAuthenticationService.token));
+            const origin = location.state?.from?.pathname || '/home';
+            navigate(origin);
+        } catch (error) {
+            alert(error);
+        }
+
     }
 
     return (
