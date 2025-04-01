@@ -20,12 +20,6 @@ export default function Menu({ categories = [] }: MenuProps) {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Basic prop validation
-    if (categories.length === 0) {
-        // You could return a placeholder or continue with empty state
-        return <div>No categories available</div>;
-    }
-
     useEffect(() => {
         if (location !== undefined && location.state !== null) {
             setcategory(location.state.category);
@@ -48,6 +42,12 @@ export default function Menu({ categories = [] }: MenuProps) {
         if (id !== category) {
             setcategory(id);
         }
+    }
+
+    // Basic prop validation
+    if (categories.length === 0) {
+        // You could return a placeholder or continue with empty state
+        return <div>No categories available</div>;
     }
 
     return (
