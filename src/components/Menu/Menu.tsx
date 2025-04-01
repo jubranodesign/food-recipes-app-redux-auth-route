@@ -8,7 +8,11 @@ import { updateRecipes } from '../../store/actions/actionCreators';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function Menu(props: { categories: IFood[] | undefined }) {
+interface MenuProps {
+    categories?: IFood[];
+}
+
+export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const services = useContext(AppContext);
     const { data: recipes } = useQuery(['recipes', category], () => services?.recipeService.getItemsByCategoryPage(category, '1', '9'));
@@ -16,11 +20,18 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
     const location = useLocation();
     const navigate = useNavigate();
 
+    // Basic prop validation
+    if (categories.length === 0) {
+        // You could return a placeholder or continue with empty state
+        return <div>No categories available</div>;
+    }
+
     useEffect(() => {
         if (location !== undefined && location.state !== null) {
             setcategory(location.state.category);
         }
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []) // Intentionally run only on mount
 
     useEffect(() => {
         if (recipes !== null && recipes !== undefined) {
@@ -43,7 +54,7 @@ export default function Menu(props: { categories: IFood[] | undefined }) {
         <div id="menuContainer">
             <div className="categoriesMenu hdn">
                 <ul>
-                    {props.categories?.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>
+                    {categories.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>
                         {curr.name}
                         <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-food/${curr._id}`, { state: { category: curr._id } })} />
                     </li>))}
