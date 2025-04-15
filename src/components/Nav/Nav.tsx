@@ -4,15 +4,21 @@ import './Nav.css'
 import { useEffect, useState } from "react";
 import { SiAcclaim } from 'react-icons/si';
 
-export default function Nav(props: { links: INav[] | undefined, isNavFixed?: boolean | false, position?: string | 'top' }) {
+interface NavPops {
+    links: INav[];
+    isNavFixed?: boolean;
+    position?: string
+}
+
+export default function Nav({ links = [], isNavFixed = false, position = 'top' }: NavPops) {
     const location = useLocation();
     const [navClass, setNavClass] = useState<string>('');
     const [lastPosition, setLastPosition] = useState<number>(0);
 
     useEffect(() => {
 
-        if (props.isNavFixed) {
-            if (props.position === 'top') {
+        if (isNavFixed) {
+            if (position === 'top') {
                 setNavClass('NavBar fixed top');
             } else {
                 setNavClass('NavBar fixed bottom hide');
@@ -28,7 +34,7 @@ export default function Nav(props: { links: INav[] | undefined, isNavFixed?: boo
     }, [lastPosition])
 
     function handleScroll() {
-        if (props.isNavFixed && props.position === 'bottom') {
+        if (isNavFixed && position === 'bottom') {
             if (lastPosition > 20 && navClass === 'NavBar fixed bottom hide') {
                 setNavClass('NavBar fixed bottom');
             } else if (lastPosition < 20 && navClass === 'NavBar fixed bottom') {
@@ -45,8 +51,8 @@ export default function Nav(props: { links: INav[] | undefined, isNavFixed?: boo
     return (
         <div>
             <nav className={navClass}>
-                <SiAcclaim width={'400'} className={props.isNavFixed ? 'siAcclaim' : 'hideSiAcclaim'} onClick={scrollTop} />
-                {props.links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))}
+                <SiAcclaim width={'400'} className={isNavFixed ? 'siAcclaim' : 'hideSiAcclaim'} onClick={scrollTop} />
+                {links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))}
             </nav>
         </div>
     )

@@ -26,7 +26,13 @@ function App() {
     navigationService: new NavigationService(config.navigationService.baseURL)
   };
   const store = createStore(reducer);
-  const { data: navigations } = useQuery(['navigations'], () => services?.navigationService.getAllItems());
+  const { data: navigations = [] } = useQuery(
+    ['navigations'],
+    () => services!.navigationService.getAllItems(), // use ! because we're guarding it
+    {
+      enabled: !!services?.navigationService, // only run if service exists
+    }
+  );
 
   return (
     <Provider store={store}>
