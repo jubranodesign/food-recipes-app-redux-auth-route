@@ -52,7 +52,12 @@ export default function Nav({ links = [], isNavFixed = false, position = 'top' }
         <div>
             <nav className={navClass}>
                 <SiAcclaim width={'400'} className={isNavFixed ? 'siAcclaim' : 'hideSiAcclaim'} onClick={scrollTop} />
-                {links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))}
+                {
+                    links.length === 0 ?
+                        (<p className="nav-item">No navigations links available</p>)
+                        :
+                        links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))
+                }
             </nav>
         </div>
     )

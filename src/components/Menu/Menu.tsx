@@ -14,6 +14,7 @@ interface MenuProps {
 
 export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
+    const [isMenuHidden, setIsMenuHidden] = useState(true);
     const services = useContext(AppContext);
     const { data: recipes } = useQuery(['recipes', category], () => services?.recipeService.getItemsByCategoryPage(category, '1', '9'));
     const dispatch: Dispatch<any> = useDispatch()
@@ -34,8 +35,7 @@ export default function Menu({ categories = [] }: MenuProps) {
     }, [recipes])
 
     function toggleMenu() {
-        const categoriesMenu = document.querySelector(".categoriesMenu") as HTMLElement;
-        categoriesMenu.classList.toggle('hdn');
+        setIsMenuHidden((prev) => !prev);
     }
 
     function showCategoryByName(id: string) {
@@ -44,21 +44,19 @@ export default function Menu({ categories = [] }: MenuProps) {
         }
     }
 
-    // Basic prop validation
-    if (categories.length === 0) {
-        // You could return a placeholder or continue with empty state
-        return <div>No categories available</div>;
-    }
-
     return (
         <div id="menuContainer">
-            <div className="categoriesMenu hdn">
-                <ul>
-                    {categories.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>
-                        {curr.name}
-                        <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-food/${curr._id}`, { state: { category: curr._id } })} />
-                    </li>))}
-                </ul>
+            <div className={`categoriesMenu ${isMenuHidden ? 'hdn' : ''}`} >
+                {categories.length === 0 ? (
+                    <div>No categories available</div>
+                ) : (
+                    <ul>
+                        {categories.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>
+                            {curr.name}
+                            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-food/${curr._id}`, { state: { category: curr._id } })} />
+                        </li>))}
+                    </ul>
+                )}
             </div>
 
             <div onClick={toggleMenu}>
