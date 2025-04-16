@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { updateRecipes } from '../../store/actions/actionCreators';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
+import IPage from "../../model/IPage";
+import IRecipe from "../../model/IRecipe";
 
 interface MenuProps {
     categories?: IFood[];
@@ -16,7 +18,18 @@ export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const [isMenuHidden, setIsMenuHidden] = useState(true);
     const services = useContext(AppContext);
-    const { data: recipes } = useQuery(['recipes', category], () => services?.recipeService.getItemsByCategoryPage(category, '1', '9'));
+    const defaultRecipes: IPage<IRecipe> = {
+        items: [],
+        currentPage: 1,
+        totalPages: 0,
+    };
+    const { data: recipes = defaultRecipes } = useQuery(
+        ['recipes', category],
+        () => services?.recipeService.getItemsByCategoryPage(category, '1', '9'), // use ! because we're guarding it
+        {
+            enabled: !!services?.recipeService, // only run if service exists
+        }
+    );
     const dispatch: Dispatch<any> = useDispatch()
     const location = useLocation();
     const navigate = useNavigate();
@@ -34,11 +47,11 @@ export default function Menu({ categories = [] }: MenuProps) {
         }
     }, [recipes])
 
-    function toggleMenu() {
+    const toggleMenu = (): void => {
         setIsMenuHidden((prev) => !prev);
     }
 
-    function showCategoryByName(id: string) {
+    const showCategoryByName = (id: string): void => {
         if (id !== category) {
             setcategory(id);
         }

@@ -33,7 +33,7 @@ export default function Nav({ links = [], isNavFixed = false, position = 'top' }
         return () => window.removeEventListener('scroll', handleScroll)
     }, [lastPosition])
 
-    function handleScroll() {
+    const handleScroll = (): void => {
         if (isNavFixed && position === 'bottom') {
             if (lastPosition > 20 && navClass === 'NavBar fixed bottom hide') {
                 setNavClass('NavBar fixed bottom');
@@ -44,7 +44,7 @@ export default function Nav({ links = [], isNavFixed = false, position = 'top' }
         }
     }
 
-    function scrollTop() {
+    const scrollTop = (): void => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
