@@ -1,7 +1,7 @@
 import './ListRecipes.css';
 import IRecipe from '../../model/IRecipe';
 import { useSelector } from 'react-redux';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Recipe from '../Recipe/Recipe';
 import ILazy from '../../model/ILazy';
 import IPage from '../../model/IPage';
@@ -44,7 +44,7 @@ export default function ListRecipes() {
                 selectedItems = moreRecipes.items;
             }
 
-            setRecipesLazy(recipesLazy.concat(selectedItems));
+            setRecipesLazy((prev) => prev.concat(selectedItems));
 
             prevRef.current = moreRecipes;
 
@@ -58,14 +58,14 @@ export default function ListRecipes() {
         }
     }, [recipes, moreRecipes])
 
-    function handleScroll() {
+    const handleScroll = (): void => {
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
             return;
         }
         loadMore();
     }
 
-    function loadMore() {
+    const loadMore = (): void => {
         if (recipes !== undefined && recipes.items[0].categoryId !== categoryId) {
             setCategoryId(recipes.items[0].categoryId);
         }
@@ -75,14 +75,14 @@ export default function ListRecipes() {
         }
     }
 
-    function removeRecipe(id: string) {
+    const removeRecipe = useCallback((id: string) => {
         // required improvement
         setRecipesLazy(
             recipesLazy.filter((recipeLazy) => {
                 return recipeLazy._id !== id;
             })
         );
-    }
+    }, []);
 
     // const [recipesLazy, setRecipesLazy] = useState<ILazy>({
     //     items: [],

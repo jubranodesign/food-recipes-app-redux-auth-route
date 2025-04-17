@@ -5,9 +5,18 @@ import AppContext from '../../contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
-export default function Recipe(props: { recipe: IRecipe, removeRecipeFn: Function }) {
+interface RecipeProps {
+    recipe: IRecipe;
+    removeRecipeFn: (id: string) => void; // More precise than `Function`
+}
+
+function Recipe({ recipe, removeRecipeFn }: RecipeProps) {
     const services = useContext(AppContext);
+    const [visibleInstructions, setVisibleInstructions] = useState<string | null>(null);
+    const navigate = useNavigate();
+
     // const [idMeal, setIdMeal] = useState<string>();
     // const services = useContext(AppContext);
     // const [instructions, setInstructions] = useState<String>("");
@@ -18,43 +27,32 @@ export default function Recipe(props: { recipe: IRecipe, removeRecipeFn: Functio
     //     setInstructions(instructions)
     // }, [recipe])
 
-    const navigate = useNavigate();
-
-    function showDetailsRecipe(e: any, idMeal: string) {
-        const categoriesMenu = document.querySelector(`#instructions${idMeal}`) as HTMLElement;
-        categoriesMenu.classList.toggle('hdn');
-        let theTarget = e.target.parentNode.querySelector(".instructionTitle");
-
-        if (theTarget.innerText.includes('Show')) {
-            theTarget.innerText = 'Hide Instructions';
-            // setIdMeal(idMeal);
-        }
-        else {
-            theTarget.innerText = 'Show Instructions';
-        }
+    const showDetailsRecipe = (idMeal: string): void => {
+        setVisibleInstructions((prev) => (prev === idMeal ? null : idMeal));
     }
 
-    async function removeRecipe() {
+    const removeRecipe = async (): Promise<void> => {
         if (window.confirm('Delete this Item?')) {
-            await services?.recipeService.deleteItem(props.recipe._id);
-            props.removeRecipeFn(props.recipe._id);
+            await services?.recipeService.deleteItem(recipe._id);
+            removeRecipeFn(recipe._id);
         }
     }
 
     return (
         <><div className='oneRecipeDiv'>
-            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-recipe/${props.recipe._id}`, { state: { category: props.recipe.categoryId } })} />
+            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-recipe/${recipe._id}`, { state: { category: recipe.categoryId } })} />
             <AiOutlineDelete className='delete' onClick={removeRecipe} />
-            <img src={props.recipe.urlImg}></img>
-            <h3>{props.recipe.name}</h3>
+            <img src={recipe.urlImg}></img>
+            <h3>{recipe.name}</h3>
 
             <div className='hideShowDiv'>
-                <div className='header' onClick={(e) => showDetailsRecipe(e, props.recipe._id)}>
-                    <p className='instructionTitle'>Show Instructions</p>
+                <div className='header' onClick={() => showDetailsRecipe(recipe._id)}>
+                    <p className='instructionTitle'>  {visibleInstructions === recipe._id ? 'Hide Instructions' : 'Show Instructions'}</p>
                     <span className="material-symbols-outlined">keyboard_double_arrow_down</span>
                 </div>
-                <div id={'instructions' + props.recipe._id} className='hdn'>
-                    {props.recipe.instructions.split(".").map((str, index) => <p key={index}>{str}.<br /><br /></p>)}
+                <div id={'instructions' + recipe._id}
+                    className={visibleInstructions === recipe._id ? '' : 'hdn'}>
+                    {recipe.instructions.split(".").map((str, index) => <p key={index}>{str}.<br /><br /></p>)}
                 </div>
             </div>
         </div>
@@ -62,3 +60,5 @@ export default function Recipe(props: { recipe: IRecipe, removeRecipeFn: Functio
         </>
     )
 }
+
+export default React.memo(Recipe);
