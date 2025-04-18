@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import './Recipe.css';
 import IRecipe from '../../model/IRecipe';
 import AppContext from '../../contexts/AppContext';
-import { useQuery } from '@tanstack/react-query';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -16,19 +15,13 @@ function Recipe({ recipe, removeRecipeFn }: RecipeProps) {
     const services = useContext(AppContext);
     const [visibleInstructions, setVisibleInstructions] = useState<string | null>(null);
     const navigate = useNavigate();
-
-    // const [idMeal, setIdMeal] = useState<string>();
-    // const services = useContext(AppContext);
-    // const [instructions, setInstructions] = useState<String>("");
-    // const { data: recipe } = useQuery(['recipe', idMeal], () => services?.foodService.getRecipeById(idMeal));
-
-    // useEffect(() => {
-    //     const instructions = (recipe !== null) && (recipe !== undefined) && (recipe[0] !== undefined) ? recipe[0].strInstructions : '';
-    //     setInstructions(instructions)
-    // }, [recipe])
+    const instructions = recipe.instructions
+        .split(".")
+        .map((str, index) => str.trim())  // Trim any leading/trailing spaces
+        .filter((str) => str.length > 0); // Remove empty strings caused by consecutive periods
 
     const showDetailsRecipe = (idMeal: string): void => {
-        setVisibleInstructions((prev) => (prev === idMeal ? null : idMeal));
+        setVisibleInstructions(prev => (prev === idMeal ? null : idMeal));
     }
 
     const removeRecipe = async (): Promise<void> => {
@@ -52,11 +45,14 @@ function Recipe({ recipe, removeRecipeFn }: RecipeProps) {
                 </div>
                 <div id={'instructions' + recipe._id}
                     className={visibleInstructions === recipe._id ? '' : 'hdn'}>
-                    {recipe.instructions.split(".").map((str, index) => <p key={index}>{str}.<br /><br /></p>)}
+
+                    {instructions.map((instruction, index) => (
+                        <p key={index}>{instruction}.</p>  // Add period back here
+                    ))}
+
                 </div>
             </div>
         </div>
-
         </>
     )
 }

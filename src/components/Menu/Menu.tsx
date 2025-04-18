@@ -48,7 +48,7 @@ export default function Menu({ categories = [] }: MenuProps) {
     }, [recipes])
 
     const toggleMenu = (): void => {
-        setIsMenuHidden((prev) => !prev);
+        setIsMenuHidden(prev => !prev);
     }
 
     const showCategoryByName = (id: string): void => {

@@ -3,7 +3,6 @@ import IRecipe from '../../model/IRecipe';
 import { useSelector } from 'react-redux';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Recipe from '../Recipe/Recipe';
-import ILazy from '../../model/ILazy';
 import IPage from '../../model/IPage';
 import AppContext from '../../contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
@@ -16,113 +15,62 @@ export default function ListRecipes() {
     const recipes: IPage<IRecipe> = useSelector(
         (state: any) => state.recipesReducer.recipes
     )
-    const { data: moreRecipes, refetch } = useQuery(['recipes', categoryId, page], () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'));
-    const prevRef = useRef<IPage<IRecipe>>();
+    const pageRef = useRef(page);
+
+    useQuery(
+        ['recipes', categoryId, page],
+        () => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'),
+        {
+            enabled: !!categoryId,
+            onSuccess: (moreRecipes) => {
+                if (moreRecipes?.items) {
+                    if (pageRef.current === 1) {
+                        setRecipesLazy(moreRecipes.items);
+                    } else {
+                        setRecipesLazy(prev => prev.concat(moreRecipes.items));
+                    }
+                }
+            }
+        }
+    );
 
     useEffect(() => {
         if (recipes !== undefined) {
             setPage(1);
-            setCategoryId('');
             setRecipesLazy(recipes.items);
+            if (recipes.items.length > 0) {
+                setCategoryId(recipes.items[0].categoryId);
+            }
         }
     }, [recipes])
 
     useEffect(() => {
-        if (moreRecipes !== undefined) {
-
-            if (moreRecipes.currentPage === moreRecipes.totalPages) {
-                refetch();
-            }
-
-            const newItems = moreRecipes?.items.slice();
-            let selectedItems: IRecipe[] = [];
-
-            if (prevRef.current?.items[0] === moreRecipes?.items[0]) {
-                newItems.splice(0, prevRef.current?.items.length);
-                selectedItems = newItems;
-            } else {
-                selectedItems = moreRecipes.items;
-            }
-
-            setRecipesLazy((prev) => prev.concat(selectedItems));
-
-            prevRef.current = moreRecipes;
-
-        }
-    }, [moreRecipes])
+        pageRef.current = page;
+    }, [page]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll)
         }
-    }, [recipes, moreRecipes])
-
-    const handleScroll = (): void => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
-            return;
-        }
-        loadMore();
-    }
+    }, [recipes])
 
     const loadMore = (): void => {
-        if (recipes !== undefined && recipes.items[0].categoryId !== categoryId) {
-            setCategoryId(recipes.items[0].categoryId);
-        }
-
-        if (page <= recipes.totalPages) {
+        if (pageRef.current <= recipes.totalPages) {
             setPage(prevPage => prevPage + 1);
         }
     }
 
+    const handleScroll = useCallback((): void => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
+            return;
+        }
+        loadMore();
+    }, [recipes]);
+
     const removeRecipe = useCallback((id: string) => {
-        // required improvement
-        setRecipesLazy(
-            recipesLazy.filter((recipeLazy) => {
-                return recipeLazy._id !== id;
-            })
-        );
+        setRecipesLazy(prev => prev.filter(recipe => recipe._id !== id));
     }, []);
-
-    // const [recipesLazy, setRecipesLazy] = useState<ILazy>({
-    //     items: [],
-    //     startPage: 0,
-    //     range: 10
-    // });
-
-    // useEffect(() => {
-    //     if (recipes?.length !== 0) {
-    //         setRecipesLazy({
-    //             items: initializeItems(),
-    //             startPage: 7,
-    //             range: 10
-    //         });
-    //     }
-    // }, [recipes])
-
-    // function initializeItems() {
-    //     const temp: IRecipe[] = []
-    //     let maxRow = recipes!.length < 7 ? recipes!.length : 7;
-    //     for (let i = 0; i < maxRow; i++) {
-    //         temp.push(recipes![i]);
-    //     }
-    //     return temp;
-    // }
-
-    // function loadMore() {
-    //     for (let i = recipesLazy.startPage; (i < recipesLazy.startPage + recipesLazy.range) && (recipesLazy.startPage + recipesLazy.range <= recipes!.length); i++) {
-    //         recipesLazy.items.push(recipes![i]);
-    //     }
-    //     setRecipesLazy({
-    //         items: recipesLazy.items,
-    //         startPage: recipesLazy.items.length,
-    //         range: 10
-    //     });
-
-    //     if (recipesLazy.startPage + recipesLazy.range > recipes!.length) {
-    //         setRecipesLazy({ ...recipesLazy, range: recipes!.length - recipesLazy.startPage });
-    //     }
-    // }
 
     if (recipesLazy === null || recipesLazy === undefined || recipesLazy.length === 0) return (<div id="recipesMainDisplay"><h2>Choose Recipes Category from the Menu</h2></div>)
 
@@ -132,3 +80,5 @@ export default function ListRecipes() {
         </div>
     )
 }
+
+

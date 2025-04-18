@@ -4,7 +4,8 @@
 }
 
 #menuContainer .categoriesMenu {
-    padding-left: 10px;
+    min-width: 100px;
+    text-align: center;
 }
 
 #menuContainer .foodCategoriesListItem {
