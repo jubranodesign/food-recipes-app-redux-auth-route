@@ -24,9 +24,7 @@ export default function ListRecipes() {
             enabled: !!categoryId,
             onSuccess: (moreRecipes) => {
                 if (moreRecipes?.items) {
-                    if (pageRef.current === 1) {
-                        setRecipesLazy(moreRecipes.items);
-                    } else {
+                    if (pageRef.current > 1) {
                         setRecipesLazy(prev => prev.concat(moreRecipes.items));
                     }
                 }
