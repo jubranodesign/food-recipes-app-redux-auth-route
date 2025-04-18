@@ -9,13 +9,12 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IPage from "../../model/IPage";
 import IRecipe from "../../model/IRecipe";
-import React from 'react';
 
 interface MenuProps {
     categories?: IFood[];
 }
 
-function Menu({ categories = [] }: MenuProps) {
+export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const [isMenuHidden, setIsMenuHidden] = useState(true);
     const services = useContext(AppContext);
@@ -81,5 +80,3 @@ function Menu({ categories = [] }: MenuProps) {
         </div>
     )
 }
-
-export default React.memo(Menu);
