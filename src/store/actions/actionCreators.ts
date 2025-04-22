@@ -1,5 +1,6 @@
 import IPage from "../../model/IPage";
 import IRecipe from "../../model/IRecipe";
+import ICategoryAction from "../../model/store/ICategoryAction";
 import IRecipeAction from "../../model/store/IRecipeAction";
 import ITokenAction from "../../model/store/ITokenAction";
 import * as actionTypes from "./actionTypes"
@@ -17,6 +18,15 @@ export function updateToken(token: string | null | undefined) {
     const action: ITokenAction = {
         type: actionTypes.UPDATE_TOKEN,
         token,
+    }
+
+    return action;
+}
+
+export function updateCategory(category: string | null | undefined) {
+    const action: ICategoryAction = {
+        type: actionTypes.UPDATE_CATEGORY,
+        category,
     }
 
     return action;

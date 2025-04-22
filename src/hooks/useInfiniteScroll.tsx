@@ -6,24 +6,23 @@ import useScrollListener from "./useScrollListener";
 type UseInfiniteProps<T> = {
     fetchFn: (categoryId: string, page: string) => Promise<IPage<T>> | undefined;
     category: string;
-    initialItems: IPage<T>;
 };
 
 function useInfinite<T>({
     fetchFn,
-    category,
-    initialItems,
+    category
 }: UseInfiniteProps<T>) {
 
     const [itemsLazy, setItemsLazy] = useState<T[]>([]);
     const [categoryId, setCategoryId] = useState<string>('');
     const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
     const pageRef = useRef(page);
     const loadMore = useCallback(() => {
-        if (pageRef.current <= initialItems.totalPages) {
+        if (pageRef.current <= totalPages) {
             setPage(prev => prev + 1);
         }
-    }, [initialItems]);
+    }, [totalPages]);
 
     useScrollListener(loadMore);
 
@@ -33,7 +32,10 @@ function useInfinite<T>({
         {
             enabled: !!categoryId,
             onSuccess: (moreItems) => {
-                if (moreItems?.items && pageRef.current > 1) {
+                if (moreItems?.items) {
+                    if (totalPages === 0) {
+                        setTotalPages(moreItems.totalPages)
+                    }
                     setItemsLazy(prev => prev.concat(moreItems.items));
                 }
             }
@@ -41,14 +43,11 @@ function useInfinite<T>({
     );
 
     useEffect(() => {
-        if (initialItems) {
-            setPage(1);
-            setItemsLazy(initialItems.items);
-            if (initialItems.items.length > 0) {
-                setCategoryId(category);
-            }
-        }
-    }, [initialItems]);
+        setPage(1);
+        setCategoryId(category);
+        setTotalPages(0);
+        setItemsLazy([])
+    }, [category]);
 
     useEffect(() => {
         pageRef.current = page;

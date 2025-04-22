@@ -3,20 +3,18 @@ import IRecipe from '../../model/IRecipe';
 import { useSelector } from 'react-redux';
 import { useCallback, useContext } from 'react';
 import Recipe from '../Recipe/Recipe';
-import IPage from '../../model/IPage';
 import AppContext from '../../contexts/AppContext';
 import useInfinite from '../../hooks/useInfiniteScroll';
 
 export default function ListRecipes() {
     const services = useContext(AppContext);
-    const recipes: IPage<IRecipe> = useSelector(
-        (state: any) => state.recipesReducer.recipes
+    const category: string = useSelector(
+        (state: any) => state.categoryReducer.category
     )
 
     const { itemsLazy, setItemsLazy } = useInfinite<IRecipe>({
         fetchFn: (categoryId, page) => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'),
-        category: recipes?.items?.length > 0 ? recipes.items[0].categoryId : '',
-        initialItems: recipes
+        category: category,
     });
 
     const removeRecipe = useCallback((id: string) => {

@@ -1,14 +1,10 @@
 import './Menu.css';
 import IFood from '../../model/IFood';
-import { Dispatch, useContext, useEffect, useState } from 'react';
-import AppContext from '../../contexts/AppContext';
-import { useQuery } from '@tanstack/react-query';
+import { Dispatch, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateRecipes } from '../../store/actions/actionCreators';
+import { updateCategory } from '../../store/actions/actionCreators';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
-import IPage from "../../model/IPage";
-import IRecipe from "../../model/IRecipe";
 
 interface MenuProps {
     categories?: IFood[];
@@ -17,19 +13,6 @@ interface MenuProps {
 export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const [isMenuHidden, setIsMenuHidden] = useState(true);
-    const services = useContext(AppContext);
-    const defaultRecipes: IPage<IRecipe> = {
-        items: [],
-        currentPage: 1,
-        totalPages: 0,
-    };
-    const { data: recipes = defaultRecipes } = useQuery(
-        ['recipes', category],
-        () => services?.recipeService.getItemsByCategoryPage(category, '1', '9'), // use ! because we're guarding it
-        {
-            enabled: !!services?.recipeService, // only run if service exists
-        }
-    );
     const dispatch: Dispatch<any> = useDispatch()
     const location = useLocation();
     const navigate = useNavigate();
@@ -42,10 +25,10 @@ export default function Menu({ categories = [] }: MenuProps) {
     }, []) // Intentionally run only on mount
 
     useEffect(() => {
-        if (recipes !== null && recipes !== undefined) {
-            dispatch(updateRecipes(recipes));
+        if (category !== null && category !== undefined) {
+            dispatch(updateCategory(category));
         }
-    }, [recipes])
+    }, [category])
 
     const toggleMenu = (): void => {
         setIsMenuHidden(prev => !prev);
