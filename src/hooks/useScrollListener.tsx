@@ -1,13 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
-function useScrollListener(callback: () => void) {
-    const handleScroll = useCallback(() => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
-            return;
-        }
-        callback();
-    }, [callback]);
-
+function useScrollListener(handleScroll: () => void) {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);

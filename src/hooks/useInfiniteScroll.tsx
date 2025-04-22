@@ -12,19 +12,21 @@ function useInfinite<T>({
     fetchFn,
     category
 }: UseInfiniteProps<T>) {
-
     const [itemsLazy, setItemsLazy] = useState<T[]>([]);
     const [categoryId, setCategoryId] = useState<string>('');
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);
     const pageRef = useRef(page);
-    const loadMore = useCallback(() => {
+    const handleScroll = useCallback(() => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
+            return;
+        }
         if (pageRef.current <= totalPages) {
             setPage(prev => prev + 1);
         }
     }, [totalPages]);
 
-    useScrollListener(loadMore);
+    useScrollListener(handleScroll);
 
     const { isLoading, isError } = useQuery(
         ['recipes', categoryId, page],

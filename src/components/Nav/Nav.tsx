@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { INav } from "../../model/INav";
 import './Nav.css'
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SiAcclaim } from 'react-icons/si';
+import useScrollListener from "../../hooks/useScrollListener";
 
 interface NavPops {
     links: INav[];
@@ -13,10 +14,19 @@ interface NavPops {
 export default function Nav({ links = [], isNavFixed = false, position = 'top' }: NavPops) {
     const location = useLocation();
     const [navClass, setNavClass] = useState<string>('');
-    const [lastPosition, setLastPosition] = useState<number>(0);
+    const lastPositionRef = useRef<number>(0);
+    const handleScroll = useCallback((): void => {
+        if (isNavFixed && position === 'bottom') {
+            if (lastPositionRef.current > 20 && navClass === 'NavBar fixed bottom hide') {
+                setNavClass('NavBar fixed bottom');
+            } else if (lastPositionRef.current < 20 && navClass === 'NavBar fixed bottom') {
+                setNavClass('NavBar fixed bottom hide');
+            }
+            lastPositionRef.current = document.documentElement.scrollTop;
+        }
+    }, [isNavFixed, position, navClass]);
 
     useEffect(() => {
-
         if (isNavFixed) {
             if (position === 'top') {
                 setNavClass('NavBar fixed top');
@@ -28,21 +38,7 @@ export default function Nav({ links = [], isNavFixed = false, position = 'top' }
         }
     }, [location])
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [lastPosition])
-
-    const handleScroll = (): void => {
-        if (isNavFixed && position === 'bottom') {
-            if (lastPosition > 20 && navClass === 'NavBar fixed bottom hide') {
-                setNavClass('NavBar fixed bottom');
-            } else if (lastPosition < 20 && navClass === 'NavBar fixed bottom') {
-                setNavClass('NavBar fixed bottom hide');
-            }
-            setLastPosition(document.documentElement.scrollTop)
-        }
-    }
+    useScrollListener(handleScroll);
 
     const scrollTop = (): void => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
