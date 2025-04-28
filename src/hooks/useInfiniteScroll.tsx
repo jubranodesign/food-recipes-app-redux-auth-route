@@ -38,7 +38,11 @@ function useInfinite<T>({
                     if (totalPages === 0) {
                         setTotalPages(moreItems.totalPages)
                     }
-                    setItemsLazy(prev => prev.concat(moreItems.items));
+                    if (pageRef.current == 1) {
+                        setItemsLazy(moreItems.items)
+                    } else {
+                        setItemsLazy(prev => prev.concat(moreItems.items));
+                    }
                 }
             }
         }
@@ -48,7 +52,6 @@ function useInfinite<T>({
         setPage(1);
         setCategoryId(category);
         setTotalPages(0);
-        setItemsLazy([])
     }, [category]);
 
     useEffect(() => {
