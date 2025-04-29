@@ -63,7 +63,7 @@ abstract class HttpService implements IHttpService {
         return res.data;
     }
 
-    public setAuthToken(tokn: string): void {
+    public setAuthToken(tokn: string | undefined): void {
         if (tokn) {
             this.client.defaults.headers.common["Authorization"] = `Bearer ${tokn}`;
         }

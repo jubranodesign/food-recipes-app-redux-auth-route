@@ -1,32 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Dispatch, useContext, useEffect } from 'react';
-import { updateToken } from '../../store/actions/actionCreators';
-import AppContext from '../../contexts/AppContext';
 
-export default function ProtectedRoute(props: { children: JSX.Element }) {
-    const services = useContext(AppContext);
+interface ProtectedRouteProps {
+    children: JSX.Element;
+}
 
-    let token: string | null | undefined = useSelector(
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+    const location = useLocation();
+    const token: string | null | undefined = useSelector(
         (state: any) => state.tokenReducer.token
     )
-    const location = useLocation();
-    const tokenLocalStorage = localStorage.getItem("token");
-    const dispatch: Dispatch<any> = useDispatch();
 
-    useEffect(() => {
-        if (tokenLocalStorage) {
-            //set token to axios common header
-            services?.foodService.setAuthToken(tokenLocalStorage);
-            services?.recipeService.setAuthToken(tokenLocalStorage);
-            services?.navigationService.setAuthToken(tokenLocalStorage);
-            dispatch(updateToken(tokenLocalStorage));
-        }
-    }, [token])
-
-    if (!tokenLocalStorage) {
+    if (!token) {
         return <Navigate to="/login" replace state={{ from: location }} />;
     }
 
-    return props.children;
+    return children;
 };

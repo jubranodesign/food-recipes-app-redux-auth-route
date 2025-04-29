@@ -1,6 +1,6 @@
 import './Menu.css';
 import IFood from '../../model/IFood';
-import { Dispatch, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateCategory } from '../../store/actions/actionCreators';
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -13,7 +13,7 @@ interface MenuProps {
 export default function Menu({ categories = [] }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const [isMenuHidden, setIsMenuHidden] = useState(true);
-    const dispatch: Dispatch<any> = useDispatch()
+    const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
 
