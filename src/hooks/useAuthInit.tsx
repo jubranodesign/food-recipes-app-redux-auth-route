@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { initAuth } from '../utils/auth';
+import { getToken } from '../utils/tokenStorage';
 
 export function useAuthInit() {
     const dispatch = useDispatch();
@@ -10,10 +11,10 @@ export function useAuthInit() {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = getToken()
 
         if (token) {
-            initAuth(token, services, dispatch)
+            initAuth(token, dispatch, services)
         }
 
         setReady(true)

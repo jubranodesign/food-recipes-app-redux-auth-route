@@ -15,7 +15,7 @@ export default function Home() {
 
     async function Logout() {
         await services?.userAuthenticationService.Logout();
-        dispatch(updateToken(services?.userAuthenticationService.token));
+        dispatch(updateToken(null));
     }
 
     return (

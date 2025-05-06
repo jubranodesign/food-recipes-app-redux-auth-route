@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { IHttpService } from "./IHttpService";
+import { getToken } from "../../utils/tokenStorage";
 
 abstract class HttpService implements IHttpService {
     private _baseURL: string = "";
@@ -9,6 +10,15 @@ abstract class HttpService implements IHttpService {
         this.baseURL = baseURL;
         this.client = this._client;
         this.client.defaults.baseURL = baseURL;
+
+        this.client.interceptors.request.use((config) => {
+            const token = getToken()
+            if (token) {
+                config.headers = config.headers || {};
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
     }
 
     /**

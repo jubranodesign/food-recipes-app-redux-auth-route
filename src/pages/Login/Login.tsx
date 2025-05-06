@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LoginType } from "../../model/LoginType";
 import { ILogin } from "../../model/ILogin";
-import { initAuth } from '../../utils/auth';
+import { getToken, saveToken } from '../../utils/tokenStorage';
+import { updateToken } from '../../store/actions/actionCreators';
 
 export default function Login() {
     const services = useContext(AppContext);
@@ -34,7 +35,8 @@ export default function Login() {
 
         try {
             await services?.userAuthenticationService.Login(LoginformData)
-            initAuth(services?.userAuthenticationService.token, services, dispatch)
+            const token = services?.userAuthenticationService.token
+            dispatch(updateToken(token))
             const origin = location.state?.from?.pathname || '/home';
             navigate(origin);
         } catch (error) {
