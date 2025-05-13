@@ -17,7 +17,7 @@ export default function ListRecipes() {
         category: category,
     });
 
-    const removeRecipe = useCallback((id: string) => {
+    const removeRecipe = useCallback((id: string): void => {
         setItemsLazy(prev => prev.filter(recipe => recipe._id !== id));
     }, []);
 

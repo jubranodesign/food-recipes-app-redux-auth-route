@@ -1,0 +1,53 @@
+.token-display {
+    background-color: #333;
+    color: #a8d725;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Courier New', monospace;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.token-display h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.token-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.token-box code {
+    font-size: 0.9rem;
+    word-wrap: break-word;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.token-box button {
+    background-color: #a8d725;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 5px;
+}
+
+.token-box button:hover {
+    background-color: #a8d725b9;
+}
+
+.token-box button:focus {
+    outline: none;
+}
+
+.token-box button:active {
+    transform: scale(0.98);
+}

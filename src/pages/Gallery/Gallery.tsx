@@ -7,7 +7,13 @@ import './Gallery.css';
 
 export default function Gallery() {
     const services = useContext(AppContext);
-    const { data: foods } = useQuery(['foods'], () => services?.foodService.getAllItems());
+    const { data: foods } = useQuery(
+        ['foods'],
+        () => services!.foodService.getAllItems(),
+        {
+            enabled: !!services?.foodService,
+        }
+    );
 
     return (
         <div id="Gallery">
