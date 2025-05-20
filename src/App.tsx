@@ -28,7 +28,7 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="new-category" element={<NewCategory />} />
-            <Route path="edit-food/:id" element={<NewCategory />} />
+            <Route path="edit-category/:id" element={<NewCategory />} />
             <Route path="new-recipe" element={<NewRecipe />} />
             <Route path="edit-recipe/:id" element={<NewRecipe />} />
           </Route>

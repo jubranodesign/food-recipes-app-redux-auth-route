@@ -49,7 +49,7 @@ export default function Menu({ categories = [] }: MenuProps) {
                     <ul>
                         {categories.map((curr) => (<li key={curr._id} className={curr._id === category ? 'foodCategoriesListItem active' : 'foodCategoriesListItem'} onClick={() => showCategoryByName(curr._id)}>
                             {curr.name}
-                            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-food/${curr._id}`, { state: { category: curr._id } })} />
+                            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-category/${curr._id}`, { state: { category: curr._id } })} />
                         </li>))}
                     </ul>
                 )}

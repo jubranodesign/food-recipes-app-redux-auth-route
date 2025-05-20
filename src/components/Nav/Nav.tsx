@@ -52,7 +52,20 @@ export default function Nav({ links = [], isNavFixed = false, position = 'top' }
                     links.length === 0 ?
                         (<p className="nav-item">No navigations links available</p>)
                         :
-                        links?.map((curr) => (<Link key={curr._id} className={curr.url === location.pathname ? 'nav-item active' : 'nav-item'} to={curr.url}> {curr.name} </Link>))
+                        links?.map((curr) => {
+                            const afterDash = curr.url.includes('-') ? curr.url.split('-')[1] : curr.url;
+                            const isActive = location.pathname.includes(afterDash);
+
+                            return (
+                                <Link
+                                    key={curr._id}
+                                    className={isActive ? 'nav-item active' : 'nav-item'}
+                                    to={curr.url}
+                                >
+                                    {curr.name}
+                                </Link>
+                            );
+                        })
                 }
             </nav>
         </div>

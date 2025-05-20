@@ -20,7 +20,7 @@ export default function NewCategory() {
         ['food', id],
         () => services?.foodService.getItem(id!),
         {
-            enabled: !!id && pathname.includes('edit-food'),
+            enabled: !!id && pathname.includes('edit-category'),
         }
     );
 
@@ -69,7 +69,7 @@ export default function NewCategory() {
     return (
         <div className='FormContainer'>
             <div className="formItem">
-                <h3> {pathname.includes('edit-food') ? 'update Category' : 'add New Category'}</h3>
+                <h3> {pathname.includes('edit-category') ? 'update Category' : 'add New Category'}</h3>
             </div>
             <div className="formItem">
                 <input
@@ -89,7 +89,7 @@ export default function NewCategory() {
             </div>
             <div className="formItem">
                 <input
-                    className={pathname.includes('edit-food') ? '' : 'hdn'}
+                    className={pathname.includes('edit-category') ? '' : 'hdn'}
                     type="button"
                     onClick={() => navigate('/gallery', { state: { category: location.state.category } })}
                     value="back"
