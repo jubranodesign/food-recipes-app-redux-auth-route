@@ -32,6 +32,14 @@ export default function NewCategory() {
         }
     }, [food]);
 
+    useEffect(() => {
+        if (!id) {
+            setFoodFormData({
+                name: ''
+            });
+        }
+    }, [id]);
+
     const updateFoodFormData = (e: React.FormEvent<HTMLInputElement>, str: "name"): void => {
         setFoodFormData({ ...foodFormData, [str]: (e.target as HTMLInputElement).value });
     };

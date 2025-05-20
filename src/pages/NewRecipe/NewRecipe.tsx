@@ -47,6 +47,17 @@ export default function NewRecipe() {
         }
     }, [recipe]);
 
+    useEffect(() => {
+        if (!id) {
+            setRecipeFormData({
+                categoryId: '',
+                name: '',
+                urlImg: '',
+                instructions: ''
+            });
+        }
+    }, [id]);
+
     const updateRecipeFormData = (e: React.FormEvent<any>, str: RecipeType): void => {
         setRecipeFormData({ ...recipeFormData, [str]: (e.target as HTMLInputElement).value });
     };
