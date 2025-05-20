@@ -31,12 +31,14 @@ export default function NewCategory() {
         }
     }, [food]);
 
-    function updateFoodFormData(e: React.FormEvent<HTMLInputElement>, str: "name") {
+    const updateFoodFormData = (e: React.FormEvent<HTMLInputElement>, str: "name"): void => {
         setFoodFormData({ ...foodFormData, [str]: (e.target as HTMLInputElement).value });
-    }
+    };
 
-    async function addOrUpdateFoodCategory() {
+    const addOrUpdateFoodCategory = async (): Promise<void> => {
         const { name } = foodFormData;
+
+        if (!services?.foodService) throw new Error('Food service unavailable');
 
         if (pathname.includes('edit-food') && !id) {
             alert('Invalid Form, Food Category can not be empty');
@@ -50,41 +52,46 @@ export default function NewCategory() {
 
         try {
             if (pathname.includes('new-category')) {
-                await services?.foodService.addItem(foodFormData);
+                await services.foodService.addItem(foodFormData);
                 alert('New Food Added');
             } else {
-                await services?.foodService.updateItem(id!.toString(), foodFormData);
+                await services.foodService.updateItem(id!.toString(), foodFormData);
                 alert('Food Updated');
             }
         } catch (error: any) {
             alert(error?.message || 'An error occurred. Please try again.');
         }
-    }
+    };
 
     return (
-        <>
-            <div className='FormContainer'>
-                <div className="formItem">
-                    <h3> {pathname.includes('edit-food') ? 'update Category' : 'add New Category'}</h3>
-                </div>
-                <div className="formItem">
-                    <input type="text"
-                        onChange={(e) => { updateFoodFormData(e, "name"); }}
-                        placeholder="Food Category"
-                        value={foodFormData.name} />
-                </div>
-                <div className="formItem">
-                    <input
-                        type="button"
-                        onClick={addOrUpdateFoodCategory}
-                        value="Save Category"
-                        disabled={(foodFormData.name ?? '').trim() === ''}
-                    />
-                </div>
-                <div className="formItem">
-                    <input className={pathname.includes('edit-food') ? '' : 'hdn'} type="button" onClick={() => navigate('/gallery', { state: { category: location.state.category } })} value="back" />
-                </div>
+        <div className='FormContainer'>
+            <div className="formItem">
+                <h3> {pathname.includes('edit-food') ? 'update Category' : 'add New Category'}</h3>
             </div>
-        </>
-    )
+            <div className="formItem">
+                <input
+                    type="text"
+                    onChange={(e) => { updateFoodFormData(e, "name"); }}
+                    placeholder="Food Category"
+                    value={foodFormData.name}
+                />
+            </div>
+            <div className="formItem">
+                <input
+                    type="button"
+                    onClick={addOrUpdateFoodCategory}
+                    value="Save Category"
+                    disabled={(foodFormData.name ?? '').trim() === ''}
+                />
+            </div>
+            <div className="formItem">
+                <input
+                    className={pathname.includes('edit-food') ? '' : 'hdn'}
+                    type="button"
+                    onClick={() => navigate('/gallery', { state: { category: location.state.category } })}
+                    value="back"
+                />
+            </div>
+        </div>
+    );
 }

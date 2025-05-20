@@ -17,11 +17,11 @@ export default function Login() {
         password: ''
     })
 
-    function updateFormData(e: React.FormEvent<HTMLInputElement>, str: LoginType): void {
+    const updateFormData = (e: React.FormEvent<HTMLInputElement>, str: LoginType): void => {
         setLoginFormData({ ...LoginformData, [str]: (e.target as HTMLInputElement).value });
-    }
+    };
 
-    async function Login(): Promise<void> {
+    const Login = async (): Promise<void> => {
         const { userName, password } = LoginformData;
 
         if (!userName || !password) {
