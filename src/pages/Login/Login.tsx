@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LoginType } from "../../model/LoginType";
 import { ILogin } from "../../model/ILogin";
 import { updateToken } from '../../store/actions/actionCreators';
+import { validateRequiredFields } from '../../utils/validation';
 
 export default function Login() {
     const services = useContext(AppContext);
@@ -22,10 +23,10 @@ export default function Login() {
     };
 
     const Login = async (): Promise<void> => {
-        const { userName, password } = LoginformData;
 
-        if (!userName || !password) {
-            alert('Please fill in all fields.');
+        const errorMsg = validateRequiredFields<ILogin>(LoginformData, ['userName', 'password']);
+        if (errorMsg) {
+            alert(errorMsg);
             return;
         }
 

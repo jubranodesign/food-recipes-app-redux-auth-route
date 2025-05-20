@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Recipe from '../../model/Recipe';
 import { RecipeType } from '../../model/RecipeType';
+import { validateRequiredFields } from '../../utils/validation';
 
 export default function NewRecipe() {
     const services = useContext(AppContext);
@@ -51,27 +52,21 @@ export default function NewRecipe() {
     };
 
     const addOrUpdateRecipeByFoodCategory = async (): Promise<void> => {
-        const { categoryId, name, urlImg, instructions } = recipeFormData;
+        if (!services?.recipeService) throw new Error('Recipe service unavailable');
 
-        if (categoryId.trim() === '') {
-            alert('Invalid Form, Food Category can not be empty');
-            return;
-        }
-        if (name.trim() === '') {
-            alert('Invalid Form, Recipe Name can not be empty');
-            return;
-        }
-        if (urlImg.trim() === '') {
-            alert('Invalid Form, url Img can not be empty');
-            return;
-        }
-        if (instructions.trim() === '') {
-            alert('Invalid Form, instructions can not be empty');
+        const errorMsg = validateRequiredFields<Recipe>(recipeFormData, [
+            'categoryId',
+            'name',
+            'urlImg',
+            'instructions'
+        ]);
+
+        if (errorMsg) {
+            alert(errorMsg);
             return;
         }
 
         try {
-            if (!services?.recipeService) throw new Error('Recipe service unavailable');
             if (pathname.includes('new-recipe')) {
                 await services.recipeService.addItem(recipeFormData);
                 alert('New Recipe Added');

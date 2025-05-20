@@ -4,6 +4,7 @@ import AppContext from '../../contexts/AppContext';
 import Food from '../../model/Food';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { validateRequiredFields } from '../../utils/validation';
 
 export default function NewCategory() {
     const services = useContext(AppContext);
@@ -36,17 +37,11 @@ export default function NewCategory() {
     };
 
     const addOrUpdateFoodCategory = async (): Promise<void> => {
-        const { name } = foodFormData;
-
         if (!services?.foodService) throw new Error('Food service unavailable');
 
-        if (pathname.includes('edit-food') && !id) {
-            alert('Invalid Form, Food Category can not be empty');
-            return;
-        }
-
-        if ((name ?? '').trim() === '') {
-            alert('Invalid Form, Food Category can not be empty');
+        const errorMsg = validateRequiredFields<Food>(foodFormData, ['name']);
+        if (errorMsg) {
+            alert(errorMsg);
             return;
         }
 
