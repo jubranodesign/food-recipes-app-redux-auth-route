@@ -11,18 +11,17 @@ export default function NewCategory() {
     const navigate = useNavigate();
     const pathname = location.pathname;
     const { id } = useParams();
-    const [foodId, setFoodId] = useState<string>();
     const [foodFormData, setFoodFormData] = useState<Food>({
         name: ''
     });
 
-    const { data: food } = useQuery(['food', foodId], () => services?.foodService.getItem(foodId!));
-
-    useEffect(() => {
-        if (pathname.includes('edit-food')) {
-            setFoodId(id);
+    const { data: food } = useQuery(
+        ['food', id],
+        () => services?.foodService.getItem(id!),
+        {
+            enabled: !!id && pathname.includes('edit-food'),
         }
-    }, [])
+    );
 
     useEffect(() => {
         if (food !== undefined) {
@@ -39,7 +38,7 @@ export default function NewCategory() {
     async function addOrUpdateFoodCategory() {
         const { name } = foodFormData;
 
-        if (pathname.includes('edit-food') && !foodId) {
+        if (pathname.includes('edit-food') && !id) {
             alert('Invalid Form, Food Category can not be empty');
             return;
         }
