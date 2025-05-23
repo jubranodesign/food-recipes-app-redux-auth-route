@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import useScrollListener from "./useScrollListener";
 
 type UseInfiniteProps<T> = {
-    fetchFn: (categoryId: string, page: string) => Promise<IPage<T>> | undefined;
-    category: string;
+    fetchFn: (page: string, categoryId?: string) => Promise<IPage<T>> | undefined;
+    category?: string;
 };
 
 function useInfinite<T>({
@@ -30,9 +30,8 @@ function useInfinite<T>({
 
     const { isLoading, isError } = useQuery(
         ['recipes', categoryId, page],
-        () => fetchFn(categoryId, page.toString()),
+        () => fetchFn(page.toString(), categoryId),
         {
-            enabled: !!categoryId,
             onSuccess: (moreItems) => {
                 if (moreItems?.items) {
                     if (totalPages === 0) {
@@ -50,7 +49,7 @@ function useInfinite<T>({
 
     useEffect(() => {
         setPage(1);
-        setCategoryId(category);
+        setCategoryId(category ?? '');
         setTotalPages(0);
     }, [category]);
 

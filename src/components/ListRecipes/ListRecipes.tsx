@@ -5,6 +5,7 @@ import { useCallback, useContext } from 'react';
 import Recipe from '../Recipe/Recipe';
 import AppContext from '../../contexts/AppContext';
 import useInfinite from '../../hooks/useInfiniteScroll';
+import IPage from '../../model/IPage';
 
 export default function ListRecipes() {
     const services = useContext(AppContext);
@@ -13,8 +14,13 @@ export default function ListRecipes() {
     )
 
     const { itemsLazy, setItemsLazy } = useInfinite<IRecipe>({
-        fetchFn: (categoryId, page) => services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9'),
-        category: category,
+        fetchFn: (page, categoryId) => {
+            if (categoryId) {
+                return services?.recipeService.getItemsByCategoryPage(categoryId, page.toString(), '9');
+            }
+            return Promise.resolve<IPage<IRecipe>>({ items: [], currentPage: 0, totalPages: 0 });
+        },
+        category: category
     });
 
     const removeRecipe = useCallback((id: string): void => {
