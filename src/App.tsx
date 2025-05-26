@@ -1,14 +1,14 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Gallery from './pages/Gallery/Gallery';
-import Login from './pages/Login/Login';
-import NoMatch from './pages/NoMatch/NoMatch';
+import NoMatch from './pages/NoMatch/NoMatchPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import Home from './pages/Home/Home';
-import NewCategory from './pages/NewCategory/NewCategory';
-import NewRecipe from './pages/NewRecipe/NewRecipe';
+import CategoryPage from './pages/CategoryPage/CategoryPage';
+import RecipePage from './pages/NewRecipe/RecipePage';
 import { useAuthInit } from './hooks/useAuthInit';
 import MainNavigation from './components/Nav/MainNavigation';
+import HomePage from './pages/Home/HomePage';
+import LoginPage from './pages/Login/LoginPage';
+import GalleryPage from './pages/GalleryPage/GalleryPage';
 
 function App() {
   const ready = useAuthInit();
@@ -24,16 +24,16 @@ function App() {
 
         <Routes>
           <Route element={<ProtectedRoute />}>
-            <Route index element={<Home />} />
-            <Route path="home" element={<Home />} />
-            <Route path="gallery" element={<Gallery />} />
-            <Route path="new-category" element={<NewCategory />} />
-            <Route path="edit-category/:id" element={<NewCategory />} />
-            <Route path="new-recipe" element={<NewRecipe />} />
-            <Route path="edit-recipe/:id" element={<NewRecipe />} />
+            <Route index element={<HomePage />} />
+            <Route path="home" element={<HomePage />} />
+            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="new-category" element={<CategoryPage />} />
+            <Route path="edit-category/:id" element={<CategoryPage />} />
+            <Route path="new-recipe" element={<RecipePage />} />
+            <Route path="edit-recipe/:id" element={<RecipePage />} />
           </Route>
 
-          <Route path="login" element={<Login />} />
+          <Route path="login" element={<LoginPage />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
 

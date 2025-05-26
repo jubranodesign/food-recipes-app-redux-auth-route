@@ -1,4 +1,4 @@
-import './NewRecipe.css';
+import './RecipePage.css';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
@@ -7,7 +7,7 @@ import Recipe from '../../model/Recipe';
 import { RecipeType } from '../../model/RecipeType';
 import { validateRequiredFields } from '../../utils/validation';
 
-export default function NewRecipe() {
+export default function RecipePage() {
     const services = useContext(AppContext);
     const location = useLocation();
     const navigate = useNavigate();

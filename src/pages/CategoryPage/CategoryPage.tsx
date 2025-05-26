@@ -1,4 +1,4 @@
-import './NewCategory.css';
+import './CategoryPage.css';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Food from '../../model/Food';
@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { validateRequiredFields } from '../../utils/validation';
 
-export default function NewCategory() {
+export default function CategoryPage() {
     const services = useContext(AppContext);
     const location = useLocation();
     const navigate = useNavigate();

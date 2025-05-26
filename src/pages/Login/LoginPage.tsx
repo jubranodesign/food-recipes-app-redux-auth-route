@@ -1,4 +1,4 @@
-import './Login.css';
+import './LoginPage.css';
 import { useContext, useState } from "react";
 import AppContext from "../../contexts/AppContext";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { ILogin } from "../../model/ILogin";
 import { updateToken } from '../../store/actions/actionCreators';
 import { validateRequiredFields } from '../../utils/validation';
 
-export default function Login() {
+export default function LoginPage() {
     const services = useContext(AppContext);
     const dispatch = useDispatch();
     const navigate = useNavigate();

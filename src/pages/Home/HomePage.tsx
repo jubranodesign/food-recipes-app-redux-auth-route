@@ -2,11 +2,11 @@ import { useContext } from "react";
 import AppContext from "../../contexts/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { updateToken } from "../../store/actions/actionCreators";
-import './Home.css'
+import './HomePage.css'
 import foodRecipes from '../../img/food_recipes.gif';
 import TokenDisplay from "../../components/TokenDisplay/TokenDisplay";
 
-export default function Home() {
+export default function HomePage() {
     const services = useContext(AppContext);
     const dispatch = useDispatch();
 
