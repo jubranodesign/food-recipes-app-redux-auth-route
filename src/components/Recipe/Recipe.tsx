@@ -7,15 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 interface RecipeProps {
-    recipe: IRecipe;
-    removeRecipeFn: (id: string) => void; // More precise than `Function`
+    item: IRecipe;
+    removeFn: (id: string) => void;
 }
 
-function Recipe({ recipe, removeRecipeFn }: RecipeProps) {
+function Recipe({ item, removeFn }: RecipeProps) {
     const services = useContext(AppContext);
     const [visibleInstructions, setVisibleInstructions] = useState<string | null>(null);
     const navigate = useNavigate();
-    const instructions = recipe.instructions
+    const instructions = item.instructions
         .split(".")
         .map((str, index) => str.trim())  // Trim any leading/trailing spaces
         .filter((str) => str.length > 0); // Remove empty strings caused by consecutive periods
@@ -26,25 +26,25 @@ function Recipe({ recipe, removeRecipeFn }: RecipeProps) {
 
     const removeRecipe = async (): Promise<void> => {
         if (window.confirm('Delete this Item?')) {
-            await services?.recipeService.deleteItem(recipe._id);
-            removeRecipeFn(recipe._id);
+            await services?.recipeService.deleteItem(item._id);
+            removeFn(item._id);
         }
     }
 
     return (
         <><div className='oneRecipeDiv'>
-            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-recipe/${recipe._id}`, { state: { category: recipe.categoryId } })} />
+            <AiOutlineEdit className='edit' onClick={() => navigate(`/edit-recipe/${item._id}`, { state: { category: item.categoryId } })} />
             <AiOutlineDelete className='delete' onClick={removeRecipe} />
-            <img src={recipe.urlImg}></img>
-            <h3>{recipe.name}</h3>
+            <img src={item.urlImg}></img>
+            <h3>{item.name}</h3>
 
             <div className='hideShowDiv'>
-                <div className='header' onClick={() => showDetailsRecipe(recipe._id)}>
-                    <p className='instructionTitle'>  {visibleInstructions === recipe._id ? 'Hide Instructions' : 'Show Instructions'}</p>
+                <div className='header' onClick={() => showDetailsRecipe(item._id)}>
+                    <p className='instructionTitle'>  {visibleInstructions === item._id ? 'Hide Instructions' : 'Show Instructions'}</p>
                     <span className="material-symbols-outlined">keyboard_double_arrow_down</span>
                 </div>
-                <div id={'instructions' + recipe._id}
-                    className={visibleInstructions === recipe._id ? '' : 'hdn'}>
+                <div id={'instructions' + item._id}
+                    className={visibleInstructions === item._id ? '' : 'hdn'}>
 
                     {instructions.map((instruction, index) => (
                         <p key={index}>{instruction}.</p>  // Add period back here
