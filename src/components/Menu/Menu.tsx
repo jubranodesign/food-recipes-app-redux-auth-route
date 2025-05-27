@@ -1,19 +1,17 @@
 import './Menu.css';
 import IFood from '../../model/IFood';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateCategory } from '../../store/actions/actionCreators';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface MenuProps {
     categories?: IFood[];
+    updateCategory: (categoryId: string) => void;
 }
 
-export default function Menu({ categories = [] }: MenuProps) {
+export default function Menu({ categories = [], updateCategory }: MenuProps) {
     const [category, setcategory] = useState<string>("");
     const [isMenuHidden, setIsMenuHidden] = useState(true);
-    const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -26,9 +24,9 @@ export default function Menu({ categories = [] }: MenuProps) {
 
     useEffect(() => {
         if (category !== null && category !== undefined) {
-            dispatch(updateCategory(category));
+            updateCategory(category);
         }
-    }, [category])
+    }, [category, updateCategory]);
 
     const toggleMenu = (): void => {
         setIsMenuHidden(prev => !prev);
