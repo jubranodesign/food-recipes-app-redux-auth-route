@@ -6,6 +6,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Recipe from '../../model/Recipe';
 import { RecipeType } from '../../model/RecipeType';
 import { validateRequiredFields } from '../../utils/validation';
+import TextInput from '../../components/Form/TextInput';
+import Button from '../../components/Form/Button';
+import TextArea from '../../components/Form/TextArea';
+import SelectInput from '../../components/Form/SelectInput';
 
 export default function RecipePage() {
     const services = useContext(AppContext);
@@ -96,40 +100,39 @@ export default function RecipePage() {
                 <h3> {pathname.includes('edit-recipe') ? 'update Recipe by Category' : 'add New Recipe by Category'}</h3>
             </div>
             <div className="formItem">
-                <select value={recipeFormData.categoryId} onChange={(e) => { updateRecipeFormData(e, "categoryId"); }} >
-                    <option value=''>Choose Category</option>
-                    {foods?.map((curr) => (<option key={curr._id} value={curr._id}>{curr.name}</option>))}
-                </select>
-            </div>
-            <div className="formItem">
-                <input
-                    type="text"
-                    onChange={(e) => { updateRecipeFormData(e, "name"); }}
-                    placeholder="name"
-                    value={recipeFormData.name}
+                <SelectInput
+                    value={recipeFormData.categoryId}
+                    onChange={(e) => updateRecipeFormData(e, "categoryId")}
+                    options={foods?.map(curr => ({ value: curr._id, label: curr.name })) || []}
+                    placeholder="Choose Category"
                 />
             </div>
             <div className="formItem">
-                <input
-                    type="text"
-                    onChange={(e) => { updateRecipeFormData(e, "urlImg"); }}
-                    placeholder="url Img"
+                <TextInput
+                    value={recipeFormData.name}
+                    onChange={(e) => updateRecipeFormData(e, "name")}
+                    placeholder="name"
+                />
+            </div>
+            <div className="formItem">
+                <TextInput
                     value={recipeFormData.urlImg}
+                    onChange={(e) => updateRecipeFormData(e, "urlImg")}
+                    placeholder="url Img"
                 />
             </div>
             <div className="formItem">
                 <img className={!recipeFormData.urlImg ? 'hdn' : ''} src={recipeFormData.urlImg} alt="" />
             </div>
             <div className="formItem">
-                <textarea
-                    onChange={(e) => { updateRecipeFormData(e, "instructions"); }}
-                    placeholder="instructions"
+                <TextArea
                     value={recipeFormData.instructions}
+                    onChange={(e) => updateRecipeFormData(e, "instructions")}
+                    placeholder="instructions"
                 />
             </div>
             <div className="formItem">
-                <input
-                    type="button"
+                <Button
                     onClick={addOrUpdateRecipeByFoodCategory}
                     value="Save Recipe"
                     disabled={
@@ -141,7 +144,11 @@ export default function RecipePage() {
                 />
             </div>
             <div className="formItem">
-                <input className={pathname.includes('edit-recipe') ? '' : 'hdn'} type="button" onClick={() => navigate('/gallery', { state: { category: location.state.category } })} value="back" />
+                <Button
+                    className={pathname.includes('edit-recipe') ? '' : 'hdn'}
+                    onClick={() => navigate('/gallery', { state: { category: location.state.category } })}
+                    value="back"
+                />
             </div>
         </div>
     );

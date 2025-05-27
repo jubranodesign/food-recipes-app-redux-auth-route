@@ -7,6 +7,8 @@ import { LoginType } from "../../model/LoginType";
 import { ILogin } from "../../model/ILogin";
 import { updateToken } from '../../store/actions/actionCreators';
 import { validateRequiredFields } from '../../utils/validation';
+import TextInput from '../../components/Form/TextInput';
+import PasswordInput from '../../components/Form/PasswordInput';
 
 export default function LoginPage() {
     const services = useContext(AppContext);
@@ -52,16 +54,14 @@ export default function LoginPage() {
                     <h3> Log In</h3>
                 </div>
                 <div className="formItem">
-                    <input
-                        type="text"
+                    <TextInput
                         value={LoginformData.userName}
                         onChange={(e) => updateFormData(e, 'userName')}
                         placeholder="userName"
                     />
                 </div>
                 <div className="formItem">
-                    <input
-                        type="password"
+                    <PasswordInput
                         value={LoginformData.password}
                         onChange={(e) => updateFormData(e, 'password')}
                         placeholder="password"

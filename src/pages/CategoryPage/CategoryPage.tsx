@@ -5,6 +5,8 @@ import Food from '../../model/Food';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { validateRequiredFields } from '../../utils/validation';
+import TextInput from '../../components/Form/TextInput';
+import Button from '../../components/Form/Button';
 
 export default function CategoryPage() {
     const services = useContext(AppContext);
@@ -72,25 +74,22 @@ export default function CategoryPage() {
                 <h3> {pathname.includes('edit-category') ? 'update Category' : 'add New Category'}</h3>
             </div>
             <div className="formItem">
-                <input
-                    type="text"
-                    onChange={(e) => { updateFoodFormData(e, "name"); }}
-                    placeholder="Food Category"
+                <TextInput
                     value={foodFormData.name}
+                    onChange={(e) => updateFoodFormData(e, "name")}
+                    placeholder="Food Category"
                 />
             </div>
             <div className="formItem">
-                <input
-                    type="button"
+                <Button
                     onClick={addOrUpdateFoodCategory}
                     value="Save Category"
                     disabled={(foodFormData.name ?? '').trim() === ''}
                 />
             </div>
             <div className="formItem">
-                <input
+                <Button
                     className={pathname.includes('edit-category') ? '' : 'hdn'}
-                    type="button"
                     onClick={() => navigate('/gallery', { state: { category: location.state.category } })}
                     value="back"
                 />
