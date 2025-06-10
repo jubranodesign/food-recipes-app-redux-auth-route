@@ -1,5 +1,5 @@
 import './RecipePage.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -94,6 +94,11 @@ export default function RecipePage() {
         }
     };
 
+    const categoryOptions = useMemo(
+        () => foods?.map(curr => ({ value: curr._id, label: curr.name })) || [],
+        [foods]
+    );
+
     return (
         <div className='FormContainer'>
             <div className="formItem">
@@ -103,7 +108,7 @@ export default function RecipePage() {
                 <SelectInput
                     value={recipeFormData.categoryId}
                     onChange={(e) => updateRecipeFormData(e, "categoryId")}
-                    options={foods?.map(curr => ({ value: curr._id, label: curr.name })) || []}
+                    options={categoryOptions}
                     placeholder="Choose Category"
                 />
             </div>

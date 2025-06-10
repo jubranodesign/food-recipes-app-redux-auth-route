@@ -9,6 +9,7 @@ import IPage from '../../model/IPage';
 import { useDispatch, useSelector } from 'react-redux';
 import Recipe from '../Recipe/Recipe';
 import { updateCategory } from '../../store/actions/actionCreators';
+import { RootState } from '../../store/types/rootState';
 
 export default function Gallery() {
     const services = useContext(AppContext);
@@ -21,7 +22,7 @@ export default function Gallery() {
         }
     );
     const category: string = useSelector(
-        (state: any) => state.categoryReducer.category
+        (state: RootState) => state.categoryReducer.category ?? ''
     )
 
     return (

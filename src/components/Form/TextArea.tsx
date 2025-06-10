@@ -8,7 +8,7 @@ interface TextAreaProps {
     className?: string;
 }
 
-export default function TextArea({ value, onChange, placeholder = "Enter text", rows = 4, className = "" }: TextAreaProps) {
+function TextArea({ value, onChange, placeholder = "Enter text", rows = 4, className = "" }: TextAreaProps) {
     return (
         <textarea
             value={value}
@@ -19,3 +19,5 @@ export default function TextArea({ value, onChange, placeholder = "Enter text", 
         />
     );
 }
+
+export default React.memo(TextArea);

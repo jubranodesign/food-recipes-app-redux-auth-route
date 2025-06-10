@@ -8,7 +8,7 @@ interface ButtonProps {
     type?: "button" | "submit" | "reset";
 }
 
-export default function Button({ onClick, value, disabled = false, className = '', type = "button" }: ButtonProps) {
+function Button({ onClick, value, disabled = false, className = '', type = "button" }: ButtonProps) {
     return (
         <input
             type={type}
@@ -19,3 +19,5 @@ export default function Button({ onClick, value, disabled = false, className = '
         />
     );
 }
+
+export default React.memo(Button);

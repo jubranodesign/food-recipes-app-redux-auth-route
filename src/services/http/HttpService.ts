@@ -1,15 +1,13 @@
-import axios, { AxiosInstance } from "axios";
-import { IHttpService } from "./IHttpService";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { getToken } from "../../utils/tokenStorage";
 
-abstract class HttpService implements IHttpService {
+abstract class HttpService {
     private _baseURL: string = "";
     private _client: AxiosInstance = axios.create();
 
     constructor(baseURL: string) {
         this.baseURL = baseURL;
         this.client = this._client;
-        this.client.defaults.baseURL = baseURL;
 
         this.client.interceptors.request.use((config) => {
             const token = getToken()
@@ -25,7 +23,7 @@ abstract class HttpService implements IHttpService {
      * Getter baseURL
      * @return {string }
      */
-    private get baseURL(): string {
+    protected get baseURL(): string {
         return this._baseURL;
     }
 
@@ -33,15 +31,16 @@ abstract class HttpService implements IHttpService {
      * Setter baseURL
      * @param {string } value
      */
-    private set baseURL(value: string) {
+    protected set baseURL(value: string) {
         this._baseURL = value;
+        this._client.defaults.baseURL = value;
     }
 
     /**
      * Getter client
      * @return {AxiosInstance}
      */
-    private get client(): AxiosInstance {
+    protected get client(): AxiosInstance {
         return this._client;
     }
 
@@ -49,24 +48,53 @@ abstract class HttpService implements IHttpService {
      * Setter client
      * @param {AxiosInstance} value
      */
-    private set client(value: AxiosInstance) {
+    protected set client(value: AxiosInstance) {
         this._client = value;
     }
 
-    protected async get(url: string): Promise<Response> {
-        return await this.client.get(url);
+    protected async get(url: string): Promise<AxiosResponse> {
+        try {
+            return await this.client.get(url);
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
     }
 
-    protected async post<Type>(url: string, payload: Type): Promise<Response> {
-        return await this.client.post(url, payload);
+    protected async post<Type>(url: string, payload: Type): Promise<AxiosResponse> {
+        try {
+            return await this.client.post(url, payload);
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
     }
 
-    protected async put<Type>(url: string, payload: Type): Promise<Response> {
-        return await this.client.put(url, payload);
+    protected async put<Type>(url: string, payload: Type): Promise<AxiosResponse> {
+        try {
+            return await this.client.put(url, payload);
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
     }
 
-    protected async delete(url: string): Promise<Response> {
-        return await this.client.delete(url);
+    protected async delete(url: string): Promise<AxiosResponse> {
+        try {
+            return await this.client.delete(url);
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
+    }
+
+    protected handleError(error: unknown): void {
+        // כאן אפשר להוסיף לוג, שליחת טלמטריה, או עיבוד שגיאה מותאם
+        if (axios.isAxiosError(error)) {
+            console.error('HTTP error:', error.response?.status, error.message);
+        } else {
+            console.error('Unknown error:', error);
+        }
     }
 
     protected static convertResponseToJSON<Type>(res: any): Type {

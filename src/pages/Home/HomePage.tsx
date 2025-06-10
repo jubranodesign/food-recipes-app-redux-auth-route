@@ -5,13 +5,14 @@ import { updateToken } from "../../store/actions/actionCreators";
 import './HomePage.css'
 import foodRecipes from '../../img/food_recipes.gif';
 import TokenDisplay from "../../components/TokenDisplay/TokenDisplay";
+import { RootState } from "../../store/types/rootState";
 
 export default function HomePage() {
     const services = useContext(AppContext);
     const dispatch = useDispatch();
 
     let token: string | null | undefined = useSelector(
-        (state: any) => state.tokenReducer.token
+        (state: RootState) => state.tokenReducer.token
     )
 
     async function Logout(): Promise<void> {

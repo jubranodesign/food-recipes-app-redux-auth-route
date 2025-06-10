@@ -1,18 +1,22 @@
 import React from 'react';
 
 interface TextInputProps {
-    value?: string;
+    value: string | undefined;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
     placeholder?: string;
+    className?: string;
 }
 
-export default function TextInput({ value, onChange, placeholder = "Enter text" }: TextInputProps) {
+function TextInput({ value, onChange, placeholder = "Enter text", className = "" }: TextInputProps) {
     return (
         <input
             type="text"
+            value={value}
             onChange={onChange}
             placeholder={placeholder}
-            value={value}
+            className={className}
         />
     );
 }
+
+export default React.memo(TextInput);

@@ -6,7 +6,7 @@ interface PasswordInputProps {
     placeholder?: string;
 }
 
-export default function PasswordInput({ value, onChange, placeholder = "Password" }: PasswordInputProps) {
+function PasswordInput({ value, onChange, placeholder = "Password" }: PasswordInputProps) {
     return (
         <input
             type="password"
@@ -16,3 +16,5 @@ export default function PasswordInput({ value, onChange, placeholder = "Password
         />
     );
 }
+
+export default React.memo(PasswordInput);

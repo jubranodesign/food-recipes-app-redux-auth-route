@@ -8,7 +8,7 @@ interface SelectInputProps {
     className?: string;
 }
 
-export default function SelectInput({ value, onChange, options, placeholder = "Choose...", className = "" }: SelectInputProps) {
+function SelectInput({ value, onChange, options, placeholder = "Choose...", className = "" }: SelectInputProps) {
     return (
         <select value={value} onChange={onChange} className={className}>
             <option value="">{placeholder}</option>
@@ -18,3 +18,5 @@ export default function SelectInput({ value, onChange, options, placeholder = "C
         </select>
     );
 }
+
+export default React.memo(SelectInput);

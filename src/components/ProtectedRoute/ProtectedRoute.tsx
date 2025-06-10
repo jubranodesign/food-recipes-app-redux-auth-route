@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { RootState } from '../../store/types/rootState';
 
 export default function ProtectedRoute() {
     const location = useLocation();
     const token: string | null | undefined = useSelector(
-        (state: any) => state.tokenReducer.token
+        (state: RootState) => state.tokenReducer.token
     )
 
     if (!token) {

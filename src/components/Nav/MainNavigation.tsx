@@ -3,6 +3,7 @@ import Nav from './Nav';
 import { useQuery } from '@tanstack/react-query';
 import AppContext from '../../contexts/AppContext';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store/types/rootState';
 
 export default function MainNavigation() {
     const services = useContext(AppContext);
@@ -13,7 +14,7 @@ export default function MainNavigation() {
             enabled: !!services?.navigationService, // only run if service exists
         }
     );
-    const token = useSelector((state: any) => state.tokenReducer.token);
+    const token = useSelector((state: RootState) => state.tokenReducer.token);
 
     return (
         <>
