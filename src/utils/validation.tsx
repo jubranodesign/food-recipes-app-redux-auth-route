@@ -12,3 +12,10 @@ export function validateRequiredFields<T>(fields: T, required: (keyof T)[]): str
     }
     return null;
 }
+
+export function validateId(id: string): string | null {
+    if (!id || typeof id !== "string" || id.trim() === "") {
+        return "ID is required";
+    }
+    return null;
+}

@@ -1,6 +1,8 @@
 import { ILogin } from "../../model/ILogin";
 import IUser from "../../model/IUser";
+import { handleApiRequest } from "../../utils/apiUtils";
 import { removeToken, saveToken } from "../../utils/tokenStorage";
+import { validateRequiredFields } from "../../utils/validation";
 import HttpService from "./HttpService";
 import { IAuthenticationService } from "./IAuthenticationService";
 
@@ -28,9 +30,18 @@ class UserAuthenticationService extends HttpService implements IAuthenticationSe
     }
 
     public async Login(LoginData: ILogin): Promise<void> {
-        const response = await this.post<ILogin>("/login", LoginData);
-        const data = UserAuthenticationService.convertResponseToJSON<IUser>(response);
-        this.token = data.token;
+        const errorMsg = validateRequiredFields<ILogin>(LoginData, ['userName', 'password']);
+        if (errorMsg) {
+            throw new Error(errorMsg);
+        }
+
+        const response = await handleApiRequest<IUser>(
+            () => this.post<ILogin, IUser>("/login", LoginData),
+            this.handleError.bind(this),
+            "Login failed"
+        );
+
+        this.token = response.token;
         //set token to local Storage
         saveToken(this.token)
     }

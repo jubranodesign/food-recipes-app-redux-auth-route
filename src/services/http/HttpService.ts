@@ -52,36 +52,40 @@ abstract class HttpService {
         this._client = value;
     }
 
-    protected async get(url: string): Promise<AxiosResponse> {
+    protected async get<T>(url: string): Promise<T> {
         try {
-            return await this.client.get(url);
+            const response = await this.client.get(url);
+            return HttpService.convertResponseToJSON<T>(response)
         } catch (error) {
             this.handleError(error);
             throw error;
         }
     }
 
-    protected async post<Type>(url: string, payload: Type): Promise<AxiosResponse> {
+    protected async post<T, D>(url: string, payload: T): Promise<D> {
         try {
-            return await this.client.post(url, payload);
+            const response = await this.client.post(url, payload);
+            return HttpService.convertResponseToJSON<D>(response)
         } catch (error) {
             this.handleError(error);
             throw error;
         }
     }
 
-    protected async put<Type>(url: string, payload: Type): Promise<AxiosResponse> {
+    protected async put<T, D>(url: string, payload: T): Promise<D> {
         try {
-            return await this.client.put(url, payload);
+            const response = await this.client.put(url, payload);
+            return HttpService.convertResponseToJSON<D>(response)
         } catch (error) {
             this.handleError(error);
             throw error;
         }
     }
 
-    protected async delete(url: string): Promise<AxiosResponse> {
+    protected async delete<T>(url: string): Promise<T> {
         try {
-            return await this.client.delete(url);
+            const response = await this.client.delete(url);
+            return HttpService.convertResponseToJSON<T>(response)
         } catch (error) {
             this.handleError(error);
             throw error;
