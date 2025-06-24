@@ -1,4 +1,5 @@
 import { INav } from "../../model/INav";
+import { Nav } from "../../model/Nav";
 import { handleApiRequest } from "../../utils/apiUtils";
 import { validateId, validateRequiredFields } from "../../utils/validation";
 import HttpService from "./HttpService";
@@ -31,27 +32,27 @@ class NavigationService extends HttpService implements IListService<INav, any> {
         );
     }
 
-    public async addItem(nav: any): Promise<INav> {
-        const errorMsg = validateRequiredFields<INav>(nav, ['name', 'url']);
+    public async addItem(nav: Nav): Promise<INav> {
+        const errorMsg = validateRequiredFields<Nav>(nav, ['name', 'url']);
         if (errorMsg) {
             throw new Error(errorMsg);
         }
 
         return handleApiRequest<INav>(
-            () => this.post<any, INav>('/', nav),
+            () => this.post<Nav, INav>('/', nav),
             this.handleError.bind(this),
             "Failed to add nav item"
         );
     }
 
-    public async updateItem(id: string, nav: any): Promise<INav> {
-        const errorMsg = validateId(id) || validateRequiredFields<INav>(nav, ['name', 'url']);
+    public async updateItem(id: string, nav: Nav): Promise<INav> {
+        const errorMsg = validateId(id) || validateRequiredFields<Nav>(nav, ['name', 'url']);
         if (errorMsg) {
             throw new Error(errorMsg);
         }
 
         return handleApiRequest<INav>(
-            () => this.put<any, INav>(`/${id}`, nav),
+            () => this.put<Nav, INav>(`/${id}`, nav),
             this.handleError.bind(this),
             "Failed to update nav item"
         );
