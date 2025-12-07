@@ -33,8 +33,7 @@ export default function LoginPage() {
         }
 
         try {
-            await services?.userAuthenticationService.Login(LoginformData);
-            const token = services?.userAuthenticationService.token;
+            const token = await services?.userAuthenticationService.Login(LoginformData);
 
             if (!token) throw new Error('Login failed: No token received.');
 

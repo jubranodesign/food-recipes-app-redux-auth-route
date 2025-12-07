@@ -7,29 +7,11 @@ import HttpService from "./HttpService";
 import { IAuthenticationService } from "./IAuthenticationService";
 
 class UserAuthenticationService extends HttpService implements IAuthenticationService<ILogin> {
-    private _token: string = "";
-
     constructor(baseURL: string) {
         super(baseURL)
     }
 
-    /**
-     * Getter token
-     * @return {string }
-     */
-    public get token(): string {
-        return this._token;
-    }
-
-    /**
-     * Setter token
-     * @param {string | null} value
-     */
-    public set token(value: string) {
-        this._token = value;
-    }
-
-    public async Login(LoginData: ILogin): Promise<void> {
+    public async Login(LoginData: ILogin): Promise<string> {
         const errorMsg = validateRequiredFields<ILogin>(LoginData, ['userName', 'password']);
         if (errorMsg) {
             throw new Error(errorMsg);
@@ -41,14 +23,15 @@ class UserAuthenticationService extends HttpService implements IAuthenticationSe
             "Login failed"
         );
 
-        this.token = response.token;
-        //set token to local Storage
-        saveToken(this.token)
+        // Save token to localStorage
+        saveToken(response.token);
+        
+        // Return token directly
+        return response.token;
     }
 
     public Logout(): void {
-        this.token = '';
-        removeToken()
+        removeToken();
     }
 
 }

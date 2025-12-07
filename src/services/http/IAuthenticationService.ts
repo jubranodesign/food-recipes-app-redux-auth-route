@@ -1,6 +1,5 @@
 
 export interface IAuthenticationService<Type> {
-    token: string
-    Login(LoginData: Type): Promise<void>
+    Login(LoginData: Type): Promise<string>
     Logout(): void
 }
