@@ -1,4 +1,6 @@
 # Food Recipes Web App Using React, Redux, Routing and Authentication
+A comprehensive Front-End project built with React 18 and TypeScript, managing food recipes with full functionality for user authentication and Protected Routes.
+The project utilizes modern architecture including Redux, React Query (v4) for data fetching, and Dependency Injection. The emphasis is placed on clear separation of concerns and Type Safety.
 
 This project covers several software and web concepts:
 html, css, dom, oop, singlton and dependency injection with react context, promise, async await, caching with react query, 
